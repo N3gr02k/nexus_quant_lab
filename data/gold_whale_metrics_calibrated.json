@@ -1,0 +1,31 @@
+{
+  "symbol": "GOLD",
+  "total_signals": 14,
+  "win_rate": 0.8571,
+  "total_hits": 12,
+  "total_misses": 2,
+  "avg_absorption_z": 1.69,
+  "avg_directional_speed": 1.1054,
+  "avg_return_3h_pips": -39.3929,
+  "avg_hit_return_pips": -15.9583,
+  "avg_miss_return_pips": -180.0,
+  "signal_frequency_pct": 0.36,
+  "valid": true,
+  "lookahead_results": {
+    "3h": {
+      "win_rate": 0.1429,
+      "hits": 2,
+      "avg_return_pips": -39.3929
+    },
+    "6h": {
+      "win_rate": 0.5,
+      "hits": 7,
+      "avg_return_pips": -809.6786
+    },
+    "12h": {
+      "win_rate": 0.8571,
+      "hits": 12,
+      "avg_return_pips": -1339.0
+    }
+  }
+}

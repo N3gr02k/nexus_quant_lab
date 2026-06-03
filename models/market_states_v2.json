@@ -1,0 +1,44 @@
+{
+  "0": {
+    "state": 0,
+    "samples": 732,
+    "pct": 74.09,
+    "win_rate": 30.46,
+    "wins": 223,
+    "losses": 509,
+    "classification": "\ud83d\udfe2 ALTA PROBABILIDAD",
+    "mean_alpha_divergence": -Infinity,
+    "mean_alpha_rejection_z": -0.028437,
+    "mean_alpha_rejection_z_gold": 0.0,
+    "mean_alpha_micro_trend": -0.030328,
+    "mean_alpha_micro_trend_gold": -0.006907
+  },
+  "1": {
+    "state": 1,
+    "samples": 233,
+    "pct": 23.58,
+    "win_rate": 35.62,
+    "wins": 83,
+    "losses": 150,
+    "classification": "\ud83d\udfe2 ALTA PROBABILIDAD",
+    "mean_alpha_divergence": -Infinity,
+    "mean_alpha_rejection_z": -0.050929,
+    "mean_alpha_rejection_z_gold": 0.0,
+    "mean_alpha_micro_trend": -0.031287,
+    "mean_alpha_micro_trend_gold": 0.003639
+  },
+  "2": {
+    "state": 2,
+    "samples": 23,
+    "pct": 2.33,
+    "win_rate": 0.0,
+    "wins": 0,
+    "losses": 23,
+    "classification": "\ud83d\udd34 BAJA PROBABILIDAD",
+    "mean_alpha_divergence": 0.043538,
+    "mean_alpha_rejection_z": 0.0,
+    "mean_alpha_rejection_z_gold": 0.0,
+    "mean_alpha_micro_trend": -0.079905,
+    "mean_alpha_micro_trend_gold": -0.001691
+  }
+}

@@ -1,0 +1,14 @@
+feature,importance
+alpha_near_high,0.12743726
+alpha_mom_12h,0.1129753
+alpha_rejection_z,0.11171911
+alpha_regime,0.100291446
+alpha_mom_6h,0.09132535
+alpha_near_low,0.090409875
+alpha_mom_3h,0.07777771
+alpha_is_ny_session,0.06593297
+alpha_divergence,0.06457178
+alpha_micro_trend,0.061656274
+alpha_micro_trend_gold,0.058322728
+alpha_is_fixing_hour,0.037580177
+alpha_rejection_z_gold,0.0

@@ -1,0 +1,12 @@
+{
+  "symbol": "GOLD",
+  "total_signals": 0,
+  "win_rate": 0.0,
+  "total_hits": 0,
+  "total_misses": 0,
+  "avg_absorption_z": 0.0,
+  "avg_rejection_speed": 0.0,
+  "signal_frequency_pct": 0.0,
+  "valid": false,
+  "lookahead_results": {}
+}

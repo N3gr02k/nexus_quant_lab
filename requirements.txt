@@ -1,0 +1,22 @@
+# NEXUS QUANT LAB — Dependencias
+# ================================
+
+# Core
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Conexión con MetaTrader 5
+MetaTrader5>=5.0.45
+
+# Visualización
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Estadística avanzada (cointegración)
+statsmodels>=0.14.0
+
+# Almacenamiento eficiente (opcional)
+pyarrow>=12.0.0
+
+# Notebooks
+jupyter>=1.0.0

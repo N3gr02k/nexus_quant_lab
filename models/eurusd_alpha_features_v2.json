@@ -1,0 +1,20 @@
+{
+  "features": [
+    "alpha_divergence",
+    "alpha_is_fixing_hour",
+    "alpha_is_ny_session",
+    "alpha_micro_trend",
+    "alpha_micro_trend_gold",
+    "alpha_mom_12h",
+    "alpha_mom_3h",
+    "alpha_mom_6h",
+    "alpha_near_high",
+    "alpha_near_low",
+    "alpha_regime",
+    "alpha_rejection_z",
+    "alpha_rejection_z_gold"
+  ],
+  "auc": 0.6076,
+  "symbol": "EURUSD",
+  "timestamp": "2026-06-01T19:16:07.238966"
+}

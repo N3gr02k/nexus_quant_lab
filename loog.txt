@@ -1,0 +1,996 @@
+(.venv) PS D:\nexus_quant_lab> python production/stratum_v8_master_live.py
+14:36:31 | INFO | ======================================================================
+14:36:31 | INFO | 🚀 DESPLEGANDO TERMINAL DE COMANDO V8.4 — FULL CHART MODE
+14:36:31 | INFO |    Pipeline: Modelos → TickAuditor → SentinelCouncil → Mapas de Guerra → XM
+14:36:31 | INFO | ======================================================================
+14:36:31 | INFO | ✅ MT5 conectado exitosamente
+14:36:31 | INFO |    Cuenta: 101658684 | Balance: $9754.75 | Apalancamiento: 1:1000
+14:36:32 | INFO | 🧠 Modelo EURUSD cargado: models\eurusd_alpha_brain_v2.pkl
+14:36:32 | INFO | 🧠 Modelo GOLD cargado: models\gold_alpha_brain_v2.pkl
+14:36:32 | INFO | 📐 Scaler cargado: models\market_scaler_v2.pkl
+14:36:32 | INFO | 📉 PCA cargado: models\market_pca_v2.pkl
+14:36:32 | INFO | 📋 Features EURUSD cargados: models\eurusd_alpha_features_v2.json
+14:36:32 | INFO | 📋 Features GOLD cargados: models\gold_alpha_features_v2.json
+14:36:32 | INFO | ✅ Todos los modelos cargados exitosamente
+14:36:32 | INFO |    🐋 Metricas Whale EURUSD cargadas: 13 senales
+14:36:32 | INFO |    🐋 Metricas Whale GOLD cargadas: 14 senales
+14:36:32 | INFO | 🛡️ SentinelCouncilV2 inicializado
+14:36:32 | INFO |    ⚙️  Configuracion: {
+  "forbidden_hour_utc": 19,
+  "forbidden_hour_window": 1,
+  "forbidden_hour_penalty": "Zona de Muerte (Fixing Time 19:00 UTC)",
+  "min_rejection_speed": 1.8,
+  "speed_penalty": "Falta de explosividad (Vela perezosa)",
+  "min_volume_alignment": 0.2,
+  "volume_penalty": "Volumen Institucional en contra",
+  "forbidden_regimes": [
+    "BARRIDO DE LIQUIDEZ",
+    "MANIPULACION",
+    "CACERIA DE STOPS"
+  ],
+  "regime_penalty": "Regimen de Manipulacion Activa",
+  "max_consecutive_losses": 3,
+  "daily_loss_limit": 0.05,
+  "min_confidence": 0.75,
+  "whale_config": {
+    "EURUSD": {
+      "vol_std": 1.5,
+      "speed": 2.0,
+      "abs_z": 1.0,
+      "action": "VETO",
+      "description": "Firma de Re-acumulacion (WR 7.69%)"
+    },
+    "GOLD": {
+      "vol_std": 1.2,
+      "speed": 1.5,
+      "abs_z": 0.8,
+      "action": "BOOST",
+      "description": "Firma de Climax 'The Vacuum' (WR 85.71%)"
+    }
+  },
+  "gold_boost_amount": 0.15,
+  "gold_boost_max_confidence": 0.95
+}
+14:36:32 | INFO | 📊 TickAuditor inicializado (ventana: 60 min)
+14:36:32 | INFO | ✅ SentinelV2: Modelos cargados desde D:\nexus_quant_lab\models
+14:36:32 | INFO | 🧠 Sentinel V2 Engine integrado (15 factores alfa)
+14:36:32 | INFO | ======================================================================
+14:36:32 | INFO | 🚀 V8.0 SENTINEL ORCHESTRATOR INICIALIZADO
+14:36:32 | INFO |    Pipeline: Sniper → TickAuditor → SentinelV2 → SentinelCouncil → XM
+14:36:32 | INFO | ======================================================================
+14:36:32 | INFO | 🖥️  Abriendo pantallas del Centro de Mando...
+14:36:32 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:36:32 | INFO | 🌐 EURUSD: D:\nexus_quant_lab\logs\war_room_eurusd.html
+14:36:32 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:36:32 | INFO | 🌐 GOLD: D:\nexus_quant_lab\logs\war_room_gold.html
+14:36:32 | INFO | 🔥 Mapas de Guerra desplegados en el navegador.
+14:36:32 | INFO |
+📡 Monitoreando: EURUSD, GOLD
+14:36:32 | INFO | 🕒 Hora actual UTC: 19:36:32
+14:36:32 | INFO | 🕒 Hora Lima: 14:36:32
+14:36:32 | INFO |
+──────────────────────────────────────────────────────────────────────
+14:36:32 | INFO | ⏳ Esperando el próximo cierre de hora para el primer análisis...
+14:36:32 | INFO | ──────────────────────────────────────────────────────────────────────
+14:37:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:37:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:37:00 | INFO | 🕒 [14:37 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 0m
+14:37:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:37:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:37:30 | INFO | 🕒 [14:37 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 0m
+14:38:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:38:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:38:00 | INFO | 🕒 [14:38 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 1m
+14:38:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:38:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:38:30 | INFO | 🕒 [14:38 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 1m
+14:39:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:39:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:39:00 | INFO | 🕒 [14:39 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 2m
+14:39:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:39:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:39:30 | INFO | 🕒 [14:39 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 2m
+14:40:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:40:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:40:00 | INFO | 🕒 [14:40 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 3m
+14:40:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:40:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:40:30 | INFO | 🕒 [14:40 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 3m
+14:41:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:41:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:41:00 | INFO | 🕒 [14:41 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 4m
+14:41:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:41:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:41:30 | INFO | 🕒 [14:41 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 4m
+14:42:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:42:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:42:00 | INFO | 🕒 [14:42 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 5m
+14:42:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:42:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:42:30 | INFO | 🕒 [14:42 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 5m
+14:43:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:43:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:43:00 | INFO | 🕒 [14:43 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 6m
+14:43:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:43:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:43:30 | INFO | 🕒 [14:43 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 6m
+14:44:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:44:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:44:00 | INFO | 🕒 [14:44 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 7m
+14:44:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:44:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:44:30 | INFO | 🕒 [14:44 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 7m
+14:45:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:45:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:45:00 | INFO | 🕒 [14:45 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 8m
+14:45:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:45:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:45:30 | INFO | 🕒 [14:45 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 8m
+14:46:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:46:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:46:00 | INFO | 🕒 [14:46 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 9m
+14:46:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:46:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:46:30 | INFO | 🕒 [14:46 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 9m
+14:47:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:47:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:47:00 | INFO | 🕒 [14:47 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 10m
+14:47:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:47:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:47:30 | INFO | 🕒 [14:47 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 10m
+14:48:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:48:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:48:00 | INFO | 🕒 [14:48 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 11m
+14:48:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:48:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:48:30 | INFO | 🕒 [14:48 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 11m
+14:49:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:49:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:49:00 | INFO | 🕒 [14:49 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 12m
+14:49:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:49:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:49:30 | INFO | 🕒 [14:49 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 12m
+14:50:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:50:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:50:00 | INFO | 🕒 [14:50 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 13m
+14:50:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:50:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:50:30 | INFO | 🕒 [14:50 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 13m
+14:51:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:51:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:51:00 | INFO | 🕒 [14:51 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 14m
+14:51:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:51:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:51:30 | INFO | 🕒 [14:51 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 14m
+14:52:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:52:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:52:00 | INFO | 🕒 [14:52 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 15m
+14:52:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:52:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:52:30 | INFO | 🕒 [14:52 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 15m
+14:53:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:53:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:53:00 | INFO | 🕒 [14:53 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 16m
+14:53:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:53:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:53:30 | INFO | 🕒 [14:53 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 16m
+14:54:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:54:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:54:00 | INFO | 🕒 [14:54 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 17m
+14:54:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:54:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:54:30 | INFO | 🕒 [14:54 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 17m
+14:55:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:55:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:55:00 | INFO | 🕒 [14:55 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 18m
+14:55:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:55:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:55:30 | INFO | 🕒 [14:55 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 18m
+14:56:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:56:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:56:00 | INFO | 🕒 [14:56 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 19m
+14:56:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:56:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:56:30 | INFO | 🕒 [14:56 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 19m
+14:57:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:57:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:57:00 | INFO | 🕒 [14:57 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 20m
+14:57:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:57:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:57:30 | INFO | 🕒 [14:57 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 20m
+14:58:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:58:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:58:00 | INFO | 🕒 [14:58 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 21m
+14:58:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:58:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:58:30 | INFO | 🕒 [14:58 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 21m
+14:59:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:59:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:59:00 | INFO | 🕒 [14:59 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 22m
+14:59:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+14:59:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+14:59:30 | INFO | 🕒 [14:59 Lima] Mapas actualizados | EURUSD: ⚪ INIT @ — | GOLD: ⚪ INIT @ — | Uptime: 22m
+15:00:00 | INFO |
+██████████████████████████████████████████████████████████████████████
+15:00:00 | INFO | 🔔 [CIERRE DE HORA 20:00 UTC / 15:00 Lima]
+15:00:00 | INFO | ██████████████████████████████████████████████████████████████████████
+15:00:00 | INFO |
+────────────────────────────────────────
+15:00:00 | INFO | 📊 Analizando EURUSD...
+15:00:00 | INFO | 📊 EURUSD | ticks=1736 | speed=0.79σ | vol_delta=-0.013 | régimen=NEUTRO
+D:\nexus_quant_lab\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid featurenames, but StandardScaler was fitted with feature names
+  warnings.warn(
+15:00:00 | ERROR | ❌ Error en predicción EURUSD: X has 4 features, but StandardScaler is expecting 15 features as input.
+15:00:00 | INFO |    🧠 Predicción: LONG @ 85.90%
+15:00:00 | INFO |    🛡️ Consultando al Consejo de Centinelas...
+15:00:00 | INFO |
+──────────────────────────────────────────────────────────────────────
+15:00:00 | INFO | 📡 SEÑAL RECIBIDA: EURUSD LONG
+15:00:00 | INFO |    Proba: 0.86 | Confianza: ALTA
+15:00:00 | INFO |    Entry: 1.15992 | SL: 1.15924 | TP: 1.16127
+15:00:00 | INFO | ──────────────────────────────────────────────────────────────────────
+15:00:00 | INFO | 🔍 Auditando ticks en vivo...
+15:00:00 | INFO | 📊 EURUSD | ticks=938 | speed=0.80σ | vol_delta=-0.006 | régimen=NEUTRO
+15:00:00 | INFO | 🧠 Consultando Sentinel V2 (15 factores alfa)...
+15:00:00 | INFO |    ✅ Sentinel V2 aprueba: Mercado Operable (Estado 0)
+15:00:00 | INFO | 🛡️ Consultando al Consejo de Centinelas...
+15:00:00 | WARNING | ❌ VETO DEL CONSEJO: 🛡️ VETO: Zona de Muerte (Fixing Time 19:00 UTC)
+15:00:00 | WARNING |    Capa: HORA (EXP-008)
+15:00:00 | INFO |    🛡️ SEÑAL VETADA EN EURUSD: Zona de Muerte (Fixing Time 19:00 UTC)
+15:00:00 | INFO |
+────────────────────────────────────────
+15:00:00 | INFO | 📊 Analizando GOLD...
+15:00:00 | INFO |    🏆 GOLD Proxy Direccional: raw=-0.0849, z=-0.12σ
+15:00:00 | INFO | 📊 GOLD | ticks=684 | speed=-0.12σ | vol_delta=0.004 | régimen=NEUTRO
+D:\nexus_quant_lab\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid featurenames, but StandardScaler was fitted with feature names
+  warnings.warn(
+15:00:00 | ERROR | ❌ Error en predicción GOLD: X has 4 features, but StandardScaler is expecting 15 features as input.
+15:00:00 | INFO |    🧠 Predicción: SHORT @ 83.14%
+15:00:00 | INFO |    🛡️ Consultando al Consejo de Centinelas...
+15:00:00 | INFO |
+──────────────────────────────────────────────────────────────────────
+15:00:00 | INFO | 📡 SEÑAL RECIBIDA: GOLD SHORT
+15:00:00 | INFO |    Proba: 0.83 | Confianza: MEDIA
+15:00:00 | INFO |    Entry: 4444.07000 | SL: 4446.32170 | TP: 4439.56659
+15:00:00 | INFO | ──────────────────────────────────────────────────────────────────────
+15:00:00 | INFO | 🔍 Auditando ticks en vivo...
+15:00:00 | INFO |    🏆 GOLD Proxy Direccional: raw=-0.0167, z=-0.02σ
+15:00:00 | INFO | 📊 GOLD | ticks=797 | speed=-0.02σ | vol_delta=0.015 | régimen=NEUTRO
+15:00:00 | INFO | 🧠 Consultando Sentinel V2 (15 factores alfa)...
+15:00:00 | INFO |    ✅ Sentinel V2 aprueba: Mercado Operable (Estado 0)
+15:00:00 | INFO | 🛡️ Consultando al Consejo de Centinelas...
+15:00:00 | WARNING | ❌ VETO DEL CONSEJO: 🛡️ VETO: Zona de Muerte (Fixing Time 19:00 UTC)
+15:00:00 | WARNING |    Capa: HORA (EXP-008)
+15:00:00 | INFO |    🛡️ SEÑAL VETADA EN GOLD: Zona de Muerte (Fixing Time 19:00 UTC)
+15:00:00 | INFO | 📁 Auditoría exportada: logs/sentinel_audit.csv (2 entradas)
+15:00:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:00:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:00:00 | INFO | 🕒 [15:00 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 23m
+15:00:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:00:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:00:30 | INFO | 🕒 [15:00 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 23m
+15:01:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:01:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:01:00 | INFO | 🕒 [15:01 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 24m
+15:01:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:01:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:01:30 | INFO | 🕒 [15:01 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 24m
+15:02:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:02:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:02:00 | INFO | 🕒 [15:02 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 25m
+15:02:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:02:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:02:30 | INFO | 🕒 [15:02 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 25m
+15:03:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:03:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:03:00 | INFO | 🕒 [15:03 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 26m
+15:03:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:03:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:03:30 | INFO | 🕒 [15:03 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 26m
+15:04:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:04:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:04:00 | INFO | 🕒 [15:04 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 27m
+15:04:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:04:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:04:30 | INFO | 🕒 [15:04 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 27m
+15:05:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:05:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:05:00 | INFO | 🕒 [15:05 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 28m
+15:05:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:05:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:05:30 | INFO | 🕒 [15:05 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 28m
+15:06:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:06:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:06:00 | INFO | 🕒 [15:06 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 29m
+15:06:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:06:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:06:30 | INFO | 🕒 [15:06 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 29m
+15:07:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:07:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:07:00 | INFO | 🕒 [15:07 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 30m
+15:07:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:07:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:07:30 | INFO | 🕒 [15:07 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 30m
+15:08:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:08:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:08:00 | INFO | 🕒 [15:08 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 31m
+15:08:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:08:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:08:30 | INFO | 🕒 [15:08 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 31m
+15:09:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:09:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:09:00 | INFO | 🕒 [15:09 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 32m
+15:09:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:09:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:09:30 | INFO | 🕒 [15:09 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 32m
+15:10:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:10:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:10:00 | INFO | 🕒 [15:10 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 33m
+15:10:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:10:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:10:30 | INFO | 🕒 [15:10 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 33m
+15:11:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:11:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:11:00 | INFO | 🕒 [15:11 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 34m
+15:11:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:11:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:11:30 | INFO | 🕒 [15:11 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 34m
+15:12:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:12:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:12:00 | INFO | 🕒 [15:12 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 35m
+15:12:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:12:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:12:30 | INFO | 🕒 [15:12 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 35m
+15:13:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:13:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:13:00 | INFO | 🕒 [15:13 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 36m
+15:13:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:13:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:13:30 | INFO | 🕒 [15:13 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 36m
+15:14:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:14:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:14:00 | INFO | 🕒 [15:14 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 37m
+15:14:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:14:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:14:30 | INFO | 🕒 [15:14 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 37m
+15:15:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:15:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:15:00 | INFO | 🕒 [15:15 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 38m
+15:15:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:15:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:15:30 | INFO | 🕒 [15:15 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 38m
+15:16:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:16:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:16:00 | INFO | 🕒 [15:16 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 39m
+15:16:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:16:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:16:30 | INFO | 🕒 [15:16 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 39m
+15:17:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:17:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:17:00 | INFO | 🕒 [15:17 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 40m
+15:17:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:17:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:17:30 | INFO | 🕒 [15:17 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 40m
+15:18:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:18:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:18:00 | INFO | 🕒 [15:18 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 41m
+15:18:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:18:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:18:30 | INFO | 🕒 [15:18 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 41m
+15:19:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:19:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:19:00 | INFO | 🕒 [15:19 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 42m
+15:19:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:19:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:19:30 | INFO | 🕒 [15:19 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 42m
+15:20:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:20:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:20:00 | INFO | 🕒 [15:20 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 43m
+15:20:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:20:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:20:30 | INFO | 🕒 [15:20 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 43m
+15:21:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:21:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:21:00 | INFO | 🕒 [15:21 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 44m
+15:21:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:21:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:21:30 | INFO | 🕒 [15:21 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 44m
+15:22:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:22:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:22:00 | INFO | 🕒 [15:22 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 45m
+15:22:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:22:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:22:30 | INFO | 🕒 [15:22 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 45m
+15:23:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:23:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:23:00 | INFO | 🕒 [15:23 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 46m
+15:23:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:23:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:23:30 | INFO | 🕒 [15:23 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 46m
+15:24:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:24:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:24:00 | INFO | 🕒 [15:24 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 47m
+15:24:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:24:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:24:30 | INFO | 🕒 [15:24 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 47m
+15:25:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:25:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:25:00 | INFO | 🕒 [15:25 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 48m
+15:25:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:25:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:25:30 | INFO | 🕒 [15:25 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 48m
+15:26:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:26:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:26:00 | INFO | 🕒 [15:26 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 49m
+15:26:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:26:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:26:30 | INFO | 🕒 [15:26 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 49m
+15:27:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:27:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:27:00 | INFO | 🕒 [15:27 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 50m
+15:27:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:27:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:27:30 | INFO | 🕒 [15:27 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 50m
+15:28:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:28:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:28:00 | INFO | 🕒 [15:28 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 51m
+15:28:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:28:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:28:30 | INFO | 🕒 [15:28 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 51m
+15:29:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:29:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:29:00 | INFO | 🕒 [15:29 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 52m
+15:29:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:29:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:29:30 | INFO | 🕒 [15:29 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 52m
+15:30:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:30:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:30:00 | INFO | 🕒 [15:30 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 53m
+15:30:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:30:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:30:30 | INFO | 🕒 [15:30 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 53m
+15:31:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:31:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:31:00 | INFO | 🕒 [15:31 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 54m
+15:31:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:31:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:31:30 | INFO | 🕒 [15:31 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 54m
+15:32:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:32:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:32:00 | INFO | 🕒 [15:32 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 55m
+15:32:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:32:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:32:30 | INFO | 🕒 [15:32 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 55m
+15:33:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:33:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:33:00 | INFO | 🕒 [15:33 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 56m
+15:33:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:33:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:33:30 | INFO | 🕒 [15:33 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 56m
+15:34:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:34:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:34:00 | INFO | 🕒 [15:34 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 57m
+15:34:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:34:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:34:30 | INFO | 🕒 [15:34 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 57m
+15:35:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:35:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:35:00 | INFO | 🕒 [15:35 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 58m
+15:35:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:35:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:35:30 | INFO | 🕒 [15:35 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 58m
+15:36:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:36:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:36:00 | INFO | 🕒 [15:36 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 59m
+15:36:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:36:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:36:30 | INFO | 🕒 [15:36 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 59m
+15:37:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:37:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:37:00 | INFO | 🕒 [15:37 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 60m
+15:37:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:37:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:37:30 | INFO | 🕒 [15:37 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 60m
+15:38:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:38:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:38:00 | INFO | 🕒 [15:38 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 61m
+15:38:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:38:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:38:30 | INFO | 🕒 [15:38 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 61m
+15:39:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:39:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:39:00 | INFO | 🕒 [15:39 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 62m
+15:39:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:39:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:39:30 | INFO | 🕒 [15:39 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 62m
+15:40:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:40:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:40:00 | INFO | 🕒 [15:40 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 63m
+15:40:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:40:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:40:30 | INFO | 🕒 [15:40 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 63m
+15:41:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:41:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:41:00 | INFO | 🕒 [15:41 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 64m
+15:41:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:41:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:41:30 | INFO | 🕒 [15:41 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 64m
+15:42:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:42:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:42:00 | INFO | 🕒 [15:42 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 65m
+15:42:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:42:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:42:30 | INFO | 🕒 [15:42 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 65m
+15:43:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:43:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:43:00 | INFO | 🕒 [15:43 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 66m
+15:43:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:43:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:43:30 | INFO | 🕒 [15:43 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 66m
+15:44:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:44:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:44:00 | INFO | 🕒 [15:44 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 67m
+15:44:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:44:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:44:30 | INFO | 🕒 [15:44 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 67m
+15:45:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:45:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:45:00 | INFO | 🕒 [15:45 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 68m
+15:45:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:45:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:45:30 | INFO | 🕒 [15:45 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 68m
+15:46:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:46:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:46:00 | INFO | 🕒 [15:46 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 69m
+15:46:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:46:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:46:30 | INFO | 🕒 [15:46 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 69m
+15:47:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:47:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:47:00 | INFO | 🕒 [15:47 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 70m
+15:47:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:47:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:47:30 | INFO | 🕒 [15:47 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 70m
+15:48:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:48:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:48:00 | INFO | 🕒 [15:48 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 71m
+15:48:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:48:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:48:30 | INFO | 🕒 [15:48 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 71m
+15:49:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:49:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:49:00 | INFO | 🕒 [15:49 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 72m
+15:49:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:49:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:49:30 | INFO | 🕒 [15:49 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 72m
+15:50:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:50:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:50:00 | INFO | 🕒 [15:50 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 73m
+15:50:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:50:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:50:30 | INFO | 🕒 [15:50 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 73m
+15:51:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:51:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:51:00 | INFO | 🕒 [15:51 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 74m
+15:51:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:51:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:51:30 | INFO | 🕒 [15:51 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 74m
+15:52:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:52:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:52:00 | INFO | 🕒 [15:52 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 75m
+15:52:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:52:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:52:30 | INFO | 🕒 [15:52 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 75m
+15:53:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:53:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:53:00 | INFO | 🕒 [15:53 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 76m
+15:53:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:53:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:53:30 | INFO | 🕒 [15:53 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 76m
+15:54:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:54:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:54:00 | INFO | 🕒 [15:54 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 77m
+15:54:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:54:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:54:30 | INFO | 🕒 [15:54 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 77m
+15:55:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:55:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:55:00 | INFO | 🕒 [15:55 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 78m
+15:55:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:55:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:55:30 | INFO | 🕒 [15:55 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 78m
+15:56:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:56:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:56:00 | INFO | 🕒 [15:56 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 79m
+15:56:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:56:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:56:30 | INFO | 🕒 [15:56 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 79m
+15:57:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:57:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:57:00 | INFO | 🕒 [15:57 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 80m
+15:57:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:57:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:57:30 | INFO | 🕒 [15:57 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 80m
+15:58:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:58:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:58:00 | INFO | 🕒 [15:58 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 81m
+15:58:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:58:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:58:30 | INFO | 🕒 [15:58 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 81m
+15:59:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:59:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:59:00 | INFO | 🕒 [15:59 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 82m
+15:59:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+15:59:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+15:59:30 | INFO | 🕒 [15:59 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 85.9% | GOLD: 🛡️ VETADO @ 83.1% | Uptime: 82m
+16:00:00 | INFO |
+██████████████████████████████████████████████████████████████████████
+16:00:00 | INFO | 🔔 [CIERRE DE HORA 21:00 UTC / 16:00 Lima]
+16:00:00 | INFO | ██████████████████████████████████████████████████████████████████████
+16:00:00 | INFO |
+────────────────────────────────────────
+16:00:00 | INFO | 📊 Analizando EURUSD...
+16:00:00 | INFO | 📊 EURUSD | ticks=1530 | speed=0.80σ | vol_delta=-0.006 | régimen=NEUTRO
+D:\nexus_quant_lab\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid featurenames, but StandardScaler was fitted with feature names
+  warnings.warn(
+16:00:00 | ERROR | ❌ Error en predicción EURUSD: X has 4 features, but StandardScaler is expecting 15 features as input.
+16:00:00 | INFO |    🧠 Predicción: LONG @ 89.23%
+16:00:00 | INFO |    🛡️ Consultando al Consejo de Centinelas...
+16:00:00 | INFO |
+──────────────────────────────────────────────────────────────────────
+16:00:00 | INFO | 📡 SEÑAL RECIBIDA: EURUSD LONG
+16:00:00 | INFO |    Proba: 0.89 | Confianza: ALTA
+16:00:00 | INFO |    Entry: 1.15987 | SL: 1.15918 | TP: 1.16124
+16:00:00 | INFO | ──────────────────────────────────────────────────────────────────────
+16:00:00 | INFO | 🔍 Auditando ticks en vivo...
+16:00:00 | INFO | 📊 EURUSD | ticks=1466 | speed=0.80σ | vol_delta=0.030 | régimen=NEUTRO
+16:00:00 | INFO | 🧠 Consultando Sentinel V2 (15 factores alfa)...
+16:00:00 | INFO |    ✅ Sentinel V2 aprueba: Mercado Operable (Estado 0)
+16:00:00 | INFO | 🛡️ Consultando al Consejo de Centinelas...
+16:00:00 | WARNING | ❌ VETO DEL CONSEJO: 🛡️ VETO: Falta de explosividad (Vela perezosa) (|rejection_speed|=0.80sigma <1.8sigma)
+16:00:00 | WARNING |    Capa: VELOCIDAD (EXP-001)
+16:00:00 | INFO |    🛡️ SEÑAL VETADA EN EURUSD: Falta de explosividad (Vela perezosa)
+16:00:00 | INFO |
+────────────────────────────────────────
+16:00:00 | INFO | 📊 Analizando GOLD...
+16:00:00 | INFO |    🏆 GOLD Proxy Direccional: raw=-0.0662, z=-0.09σ
+16:00:00 | INFO | 📊 GOLD | ticks=760 | speed=-0.09σ | vol_delta=0.005 | régimen=NEUTRO
+D:\nexus_quant_lab\.venv\Lib\site-packages\sklearn\utils\validation.py:2691: UserWarning: X does not have valid featurenames, but StandardScaler was fitted with feature names
+  warnings.warn(
+16:00:00 | ERROR | ❌ Error en predicción GOLD: X has 4 features, but StandardScaler is expecting 15 features as input.
+16:00:00 | INFO |    🧠 Predicción: SHORT @ 71.91%
+16:00:00 | INFO |    🛡️ Consultando al Consejo de Centinelas...
+16:00:00 | INFO |
+──────────────────────────────────────────────────────────────────────
+16:00:00 | INFO | 📡 SEÑAL RECIBIDA: GOLD SHORT
+16:00:00 | INFO |    Proba: 0.72 | Confianza: BAJA
+16:00:00 | INFO |    Entry: 4434.18000 | SL: 4436.75771 | TP: 4429.02459
+16:00:00 | INFO | ──────────────────────────────────────────────────────────────────────
+16:00:00 | INFO | 🔍 Auditando ticks en vivo...
+16:00:00 | INFO |    🏆 GOLD Proxy Direccional: raw=-0.0798, z=-0.12σ
+16:00:00 | INFO | 📊 GOLD | ticks=839 | speed=-0.12σ | vol_delta=0.013 | régimen=NEUTRO
+16:00:00 | INFO | 🧠 Consultando Sentinel V2 (15 factores alfa)...
+16:00:00 | INFO |    ✅ Sentinel V2 aprueba: Mercado Operable (Estado 0)
+16:00:00 | INFO | 🛡️ Consultando al Consejo de Centinelas...
+16:00:00 | WARNING | ❌ VETO DEL CONSEJO: 🛡️ VETO: Falta de explosividad (Vela perezosa) (|rejection_speed|=0.12sigma <1.8sigma)
+16:00:00 | WARNING |    Capa: VELOCIDAD (EXP-001)
+16:00:00 | INFO |    🛡️ SEÑAL VETADA EN GOLD: Falta de explosividad (Vela perezosa)
+16:00:00 | INFO | 📁 Auditoría exportada: logs/sentinel_audit.csv (4 entradas)
+16:00:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:00:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:00:00 | INFO | 🕒 [16:00 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 83m
+16:00:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:00:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:00:30 | INFO | 🕒 [16:00 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 83m
+16:01:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:01:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:01:00 | INFO | 🕒 [16:01 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 84m
+16:01:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:01:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:01:30 | INFO | 🕒 [16:01 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 84m
+16:02:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:02:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:02:00 | INFO | 🕒 [16:02 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 85m
+16:02:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:02:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:02:30 | INFO | 🕒 [16:02 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 85m
+16:03:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:03:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:03:00 | INFO | 🕒 [16:03 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 86m
+16:03:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:03:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:03:30 | INFO | 🕒 [16:03 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 86m
+16:04:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:04:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:04:00 | INFO | 🕒 [16:04 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 87m
+16:04:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:04:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:04:30 | INFO | 🕒 [16:04 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 87m
+16:05:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:05:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:05:00 | INFO | 🕒 [16:05 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 88m
+16:05:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:05:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:05:30 | INFO | 🕒 [16:05 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 88m
+16:06:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:06:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:06:00 | INFO | 🕒 [16:06 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 89m
+16:06:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:06:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:06:30 | INFO | 🕒 [16:06 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 89m
+16:07:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:07:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:07:00 | INFO | 🕒 [16:07 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 90m
+16:07:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:07:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:07:30 | INFO | 🕒 [16:07 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 90m
+16:08:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:08:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:08:00 | INFO | 🕒 [16:08 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 91m
+16:08:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:08:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:08:30 | INFO | 🕒 [16:08 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 91m
+16:09:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:09:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:09:00 | INFO | 🕒 [16:09 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 92m
+16:09:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:09:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:09:30 | INFO | 🕒 [16:09 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 92m
+16:10:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:10:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:10:00 | INFO | 🕒 [16:10 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 93m
+16:10:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:10:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:10:30 | INFO | 🕒 [16:10 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 93m
+16:11:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:11:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:11:00 | INFO | 🕒 [16:11 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 94m
+16:11:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:11:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:11:30 | INFO | 🕒 [16:11 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 94m
+16:12:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:12:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:12:00 | INFO | 🕒 [16:12 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 95m
+16:12:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:12:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:12:30 | INFO | 🕒 [16:12 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 95m
+16:13:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:13:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:13:00 | INFO | 🕒 [16:13 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 96m
+16:13:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:13:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:13:30 | INFO | 🕒 [16:13 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 96m
+16:14:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:14:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:14:00 | INFO | 🕒 [16:14 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 97m
+16:14:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:14:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:14:30 | INFO | 🕒 [16:14 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 97m
+16:15:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:15:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:15:00 | INFO | 🕒 [16:15 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 98m
+16:15:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:15:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:15:30 | INFO | 🕒 [16:15 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 98m
+16:16:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:16:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:16:00 | INFO | 🕒 [16:16 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 99m
+16:16:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:16:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:16:30 | INFO | 🕒 [16:16 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 99m
+16:17:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:17:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:17:00 | INFO | 🕒 [16:17 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 100m
+16:17:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:17:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:17:30 | INFO | 🕒 [16:17 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 100m
+16:18:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:18:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:18:00 | INFO | 🕒 [16:18 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 101m
+16:18:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:18:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:18:30 | INFO | 🕒 [16:18 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 101m
+16:19:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:19:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:19:00 | INFO | 🕒 [16:19 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 102m
+16:19:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:19:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:19:30 | INFO | 🕒 [16:19 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 102m
+16:20:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:20:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:20:00 | INFO | 🕒 [16:20 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 103m
+16:20:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:20:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:20:30 | INFO | 🕒 [16:20 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 103m
+16:21:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:21:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:21:00 | INFO | 🕒 [16:21 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 104m
+16:21:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:21:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:21:30 | INFO | 🕒 [16:21 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 104m
+16:22:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:22:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:22:00 | INFO | 🕒 [16:22 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 105m
+16:22:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:22:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:22:30 | INFO | 🕒 [16:22 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 105m
+16:23:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:23:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:23:00 | INFO | 🕒 [16:23 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 106m
+16:23:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:23:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:23:30 | INFO | 🕒 [16:23 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 106m
+16:24:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:24:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:24:00 | INFO | 🕒 [16:24 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 107m
+16:24:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:24:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:24:30 | INFO | 🕒 [16:24 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 107m
+16:25:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:25:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:25:00 | INFO | 🕒 [16:25 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 108m
+16:25:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:25:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:25:30 | INFO | 🕒 [16:25 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 108m
+16:26:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:26:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:26:00 | INFO | 🕒 [16:26 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 109m
+16:26:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:26:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:26:30 | INFO | 🕒 [16:26 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 109m
+16:27:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:27:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:27:00 | INFO | 🕒 [16:27 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 110m
+16:27:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:27:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:27:30 | INFO | 🕒 [16:27 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 110m
+16:28:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:28:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:28:00 | INFO | 🕒 [16:28 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 111m
+16:28:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:28:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:28:30 | INFO | 🕒 [16:28 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 111m
+16:29:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:29:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:29:00 | INFO | 🕒 [16:29 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 112m
+16:29:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:29:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:29:30 | INFO | 🕒 [16:29 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 112m
+16:30:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:30:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:30:00 | INFO | 🕒 [16:30 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 113m
+16:30:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:30:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:30:30 | INFO | 🕒 [16:30 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 113m
+16:31:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:31:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:31:00 | INFO | 🕒 [16:31 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 114m
+16:31:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:31:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:31:30 | INFO | 🕒 [16:31 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 114m
+16:32:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:32:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:32:00 | INFO | 🕒 [16:32 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 115m
+16:32:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:32:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:32:30 | INFO | 🕒 [16:32 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 115m
+16:33:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:33:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:33:00 | INFO | 🕒 [16:33 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 116m
+16:33:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:33:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:33:30 | INFO | 🕒 [16:33 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 116m
+16:34:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:34:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:34:00 | INFO | 🕒 [16:34 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 117m
+16:34:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:34:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:34:30 | INFO | 🕒 [16:34 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 117m
+16:35:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:35:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:35:00 | INFO | 🕒 [16:35 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 118m
+16:35:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:35:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:35:30 | INFO | 🕒 [16:35 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 118m
+16:36:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:36:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:36:00 | INFO | 🕒 [16:36 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 119m
+16:36:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:36:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:36:30 | INFO | 🕒 [16:36 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 119m
+16:37:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:37:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:37:00 | INFO | 🕒 [16:37 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 120m
+16:37:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:37:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:37:30 | INFO | 🕒 [16:37 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 120m
+16:38:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:38:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:38:00 | INFO | 🕒 [16:38 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 121m
+16:38:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:38:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:38:30 | INFO | 🕒 [16:38 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 121m
+16:39:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:39:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:39:00 | INFO | 🕒 [16:39 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 122m
+16:39:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:39:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:39:30 | INFO | 🕒 [16:39 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 122m
+16:40:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:40:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:40:00 | INFO | 🕒 [16:40 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 123m
+16:40:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:40:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:40:30 | INFO | 🕒 [16:40 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 123m
+16:41:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:41:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:41:00 | INFO | 🕒 [16:41 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 124m
+16:41:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:41:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:41:30 | INFO | 🕒 [16:41 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 124m
+16:42:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:42:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:42:00 | INFO | 🕒 [16:42 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 125m
+16:42:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:42:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:42:30 | INFO | 🕒 [16:42 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 125m
+16:43:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:43:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:43:00 | INFO | 🕒 [16:43 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 126m
+16:43:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:43:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:43:30 | INFO | 🕒 [16:43 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 126m
+16:44:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:44:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:44:00 | INFO | 🕒 [16:44 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 127m
+16:44:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:44:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:44:30 | INFO | 🕒 [16:44 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 127m
+16:45:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:45:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:45:00 | INFO | 🕒 [16:45 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 128m
+16:45:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:45:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:45:30 | INFO | 🕒 [16:45 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 128m
+16:46:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:46:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:46:00 | INFO | 🕒 [16:46 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 129m
+16:46:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:46:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:46:30 | INFO | 🕒 [16:46 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 129m
+16:47:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:47:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:47:00 | INFO | 🕒 [16:47 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 130m
+16:47:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:47:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:47:30 | INFO | 🕒 [16:47 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 130m
+16:48:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:48:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:48:00 | INFO | 🕒 [16:48 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 131m
+16:48:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:48:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:48:30 | INFO | 🕒 [16:48 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 131m
+16:49:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:49:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:49:00 | INFO | 🕒 [16:49 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 132m
+16:49:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:49:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:49:30 | INFO | 🕒 [16:49 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 132m
+16:50:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:50:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:50:00 | INFO | 🕒 [16:50 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 133m
+16:50:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:50:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:50:30 | INFO | 🕒 [16:50 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 133m
+16:51:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:51:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:51:00 | INFO | 🕒 [16:51 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 134m
+16:51:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:51:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:51:30 | INFO | 🕒 [16:51 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 134m
+16:52:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:52:00 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:52:00 | INFO | 🕒 [16:52 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 135m
+16:52:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_eurusd.html
+16:52:30 | INFO | 🗺️ V5.2 Mapa de Guerra generado: logs/war_room_gold.html
+16:52:30 | INFO | 🕒 [16:52 Lima] Mapas actualizados | EURUSD: 🛡️ VETADO @ 89.2% | GOLD: 🛡️ VETADO @ 71.9% | Uptime: 135m

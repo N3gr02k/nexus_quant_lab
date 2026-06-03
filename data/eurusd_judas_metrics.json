@@ -1,0 +1,65 @@
+{
+  "symbol": "EURUSD",
+  "total_signals": 13,
+  "veredict": "NOISE",
+  "confidence": "BAJA",
+  "trend_score": -0.0001,
+  "lookaheads": {
+    "3h": {
+      "wr_reversal": 0.0,
+      "wr_trend": 0.0,
+      "avg_return_pips": 0.0,
+      "winner": "REVERSAL",
+      "margin": 0.0
+    },
+    "6h": {
+      "wr_reversal": 0.0,
+      "wr_trend": 0.0,
+      "avg_return_pips": 0.0,
+      "winner": "REVERSAL",
+      "margin": 0.0
+    },
+    "12h": {
+      "wr_reversal": 0.0,
+      "wr_trend": 0.0769,
+      "avg_return_pips": 0.5346,
+      "winner": "TREND",
+      "margin": 0.0769
+    },
+    "24h": {
+      "wr_reversal": 0.5385,
+      "wr_trend": 0.4615,
+      "avg_return_pips": -3.1308,
+      "winner": "REVERSAL",
+      "margin": 0.0769
+    }
+  },
+  "volume_alignment": {
+    "aligned_count": 0,
+    "conflict_count": 13,
+    "aligned_pct": 0.0
+  },
+  "aftermath": {
+    "3h": {
+      "avg_return_pips": 0.0,
+      "positive_pct": 0.0,
+      "negative_pct": 0.0
+    },
+    "6h": {
+      "avg_return_pips": 0.0,
+      "positive_pct": 0.0,
+      "negative_pct": 0.0
+    },
+    "12h": {
+      "avg_return_pips": 0.5346,
+      "positive_pct": 0.0769,
+      "negative_pct": 0.0
+    },
+    "24h": {
+      "avg_return_pips": -3.1308,
+      "positive_pct": 0.4615,
+      "negative_pct": 0.5385
+    }
+  },
+  "valid": true
+}

@@ -1,0 +1,124 @@
+{
+  "experiment": "EXP-008",
+  "name": "The News Shield (Sentimiento Macro)",
+  "timestamp": "2026-06-01T17:30:40.109233",
+  "audit_file": "D:\\nexus_quant_lab\\logs\\master_audit.csv",
+  "correlation": {
+    "total_losses": 69,
+    "losses_in_news_window": 6,
+    "pct_losses_in_news": 8.7,
+    "news_hit_rate": 85.71
+  },
+  "worst_news_event": {
+    "date": "2026-06-05",
+    "time": "12:30",
+    "event": "Non-Farm Payrolls",
+    "impact": "\u2605\u2605\u2605\u2605\u2605",
+    "currency": "USD",
+    "trade_id": 331,
+    "loss_amount": -113.55592345783737,
+    "symbol": "EURUSD",
+    "direction": "buy"
+  },
+  "symbol_sensitivity": {
+    "EURUSD": {
+      "total_losses": 29,
+      "losses_in_news": 2,
+      "pct_in_news": 6.896551724137931
+    },
+    "GOLD": {
+      "total_losses": 23,
+      "losses_in_news": 2,
+      "pct_in_news": 8.695652173913043
+    },
+    "GBPUSD": {
+      "total_losses": 17,
+      "losses_in_news": 2,
+      "pct_in_news": 11.76470588235294
+    }
+  },
+  "news_timeline": [
+    {
+      "event": "ISM Manufacturing PMI",
+      "impact": "\u2605\u2605\u2605",
+      "datetime": "2026-06-01T14:00:00",
+      "losses_in_window": 0,
+      "total_loss_amount": 0,
+      "symbols_affected": []
+    },
+    {
+      "event": "Factory Orders m/m",
+      "impact": "\u2605\u2605\u2605",
+      "datetime": "2026-06-02T12:30:00",
+      "losses_in_window": 1,
+      "total_loss_amount": -87.25,
+      "symbols_affected": [
+        "GBPUSD"
+      ]
+    },
+    {
+      "event": "ADP Non-Farm Employment",
+      "impact": "\u2605\u2605\u2605\u2605",
+      "datetime": "2026-06-03T12:15:00",
+      "losses_in_window": 2,
+      "total_loss_amount": -195.5,
+      "symbols_affected": [
+        "EURUSD",
+        "GOLD"
+      ]
+    },
+    {
+      "event": "Unemployment Claims",
+      "impact": "\u2605\u2605\u2605",
+      "datetime": "2026-06-04T12:30:00",
+      "losses_in_window": 0,
+      "total_loss_amount": 0,
+      "symbols_affected": []
+    },
+    {
+      "event": "Non-Farm Payrolls",
+      "impact": "\u2605\u2605\u2605\u2605\u2605",
+      "datetime": "2026-06-05T12:30:00",
+      "losses_in_window": 3,
+      "total_loss_amount": -305.5,
+      "symbols_affected": [
+        "GBPUSD",
+        "EURUSD",
+        "GOLD"
+      ]
+    },
+    {
+      "event": "Unemployment Rate",
+      "impact": "\u2605\u2605\u2605\u2605\u2605",
+      "datetime": "2026-06-05T12:30:00",
+      "losses_in_window": 3,
+      "total_loss_amount": -305.5,
+      "symbols_affected": [
+        "GBPUSD",
+        "EURUSD",
+        "GOLD"
+      ]
+    },
+    {
+      "event": "ISM Services PMI",
+      "impact": "\u2605\u2605\u2605",
+      "datetime": "2026-06-05T14:00:00",
+      "losses_in_window": 0,
+      "total_loss_amount": 0,
+      "symbols_affected": []
+    }
+  ],
+  "recommendations": [
+    "\u2705 BAJA CORRELACI\u00d3N: Solo 8.7% de p\u00e9rdidas en ventanas de noticias. El Sniper no est\u00e1 siendo significativamente afectado por eventos macro.",
+    "\ud83d\udd0d El peor trade en ventana de noticias fue EURUSD buy (Trade #331) con p\u00e9rdida de $113.56 durante 'Non-Farm Payrolls' (\u2605\u2605\u2605\u2605\u2605)."
+  ],
+  "shield_rules": [],
+  "shield_config": {
+    "news_shield_enabled": false,
+    "news_window_minutes": 30,
+    "pct_losses_in_news": 8.7,
+    "shield_rules": [],
+    "dangerous_hours": [],
+    "sensitive_symbols": []
+  }
+}

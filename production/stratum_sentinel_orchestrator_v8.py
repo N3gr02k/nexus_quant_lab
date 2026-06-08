@@ -59,7 +59,7 @@ logger = logging.getLogger("SentinelOrchestrator")
 # Importaciones del Laboratorio
 # ──────────────────────────────────────────────
 try:
-    from models.sentinel_council import SentinelCouncilV2 as SentinelCouncil, CouncilVerdict
+    from core.sentinel_council import SentinelCouncilV2 as SentinelCouncil, CouncilVerdict
 except ImportError:
     logger.error("❌ No se pudo importar SentinelCouncilV2. ¿Estás en el directorio correcto?")
     logger.error("   Ejecuta desde d:/nexus_quant_lab/")

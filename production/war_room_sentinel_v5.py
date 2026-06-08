@@ -1,5 +1,5 @@
 """
-NEXUS QUANT LAB — V5.1 War Room Sentinel
+NEXUS QUANT LAB — V5.2 War Room Sentinel
 ==========================================
 war_room_sentinel_v5.py
 
@@ -33,7 +33,7 @@ logger = logging.getLogger("WarRoomSentinel")
 
 class WarRoomSentinel:
     """
-    War Room V5.1 — El Semáforo del Consejo de Centinelas.
+    War Room V5.2 — El Semáforo del Consejo de Centinelas.
     
     Genera un dashboard HTML autónomo que muestra:
       - Semáforo grande (VERDE/AMARILLO/ROJO)
@@ -49,7 +49,7 @@ class WarRoomSentinel:
       war_room.save("war_room.html")  # → guarda a archivo
     """
     
-    def __init__(self, title: str = "🛡️ CONSEJO DE CENTINELAS — WAR ROOM V5.1"):
+    def __init__(self, title: str = "🛡️ CONSEJO DE CENTINELAS — WAR ROOM V5.2"):
         self.title = title
         self.status = {
             "timestamp": datetime.now(timezone.utc).isoformat(),

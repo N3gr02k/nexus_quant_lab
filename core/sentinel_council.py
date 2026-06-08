@@ -106,20 +106,16 @@ class SentinelCouncilV2:
             "forbidden_hour_window": 1,
             "forbidden_hour_penalty": "Zona de Muerte (Fixing Time 19:00 UTC)",
 
-            # EXP-001: Path Profiling — Velocidad de rechazo
-            "min_rejection_speed": 1.8,
+            # EXP-001: Path Profiling — Velocidad de rechazo (Modo Ataque: 0.5)
+            "min_rejection_speed": 0.5,
             "speed_penalty": "Falta de explosividad (Vela perezosa)",
 
             # EXP-004: Volume Delta — Volumen institucional
-            "min_volume_alignment": 0.2,
+            "min_volume_alignment": 0.01,
             "volume_penalty": "Volumen Institucional en contra",
 
-            # EXP-010/011: Shadow Clustering — Regimen
-            "forbidden_regimes": [
-                "BARRIDO DE LIQUIDEZ",
-                "MANIPULACION",
-                "CACERIA DE STOPS",
-            ],
+            # EXP-010/011: Shadow Clustering — Regimen (Modo Explorador: vacío)
+            "forbidden_regimes": [],
             "regime_penalty": "Regimen de Manipulacion Activa",
 
             # EXP-003: Montecarlo — Limites de riesgo

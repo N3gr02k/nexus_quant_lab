@@ -1,0 +1,48 @@
+(.venv) PS D:\nexus_quant_lab> docker logs -f nexus_sentinel_brain
+/usr/local/lib/python3.12/site-packages/sklearn/base.py:376: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.8.0 when using version 1.5.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/base.py:376: InconsistentVersionWarning: Trying to unpickle estimator PCA from version 1.8.0 when using version 1.5.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/base.py:376: InconsistentVersionWarning: Trying to unpickle estimator KMeans from version 1.8.0 when using version 1.5.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+2026-06-07 21:50:09,364 [SentinelV2] INFO: ✅ SentinelV2: Modelos cargados desde /app/models
+2026-06-07 21:50:09,364 [BrainAPI] INFO: 🧠 Brain API iniciada. SentinelV2 listo para recibir consultas.
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     172.18.0.1:55364 - "GET / HTTP/1.1" 200 OK
+INFO:     172.18.0.1:60290 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:60294 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:38414 - "GET / HTTP/1.1" 200 OK
+INFO:     172.18.0.1:55022 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:55034 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:34966 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:34974 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:38350 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:38360 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:57516 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:57518 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:47604 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:47620 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58258 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58264 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:57844 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:57848 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:53478 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:53490 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:39154 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:39166 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:44880 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:44892 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:44636 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:44648 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:43180 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:43184 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:34662 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:34668 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:39690 - "POST /evaluate HTTP/1.1" 200 OK
+INFO:     172.18.0.1:39702 - "POST /evaluate HTTP/1.1" 200 OK

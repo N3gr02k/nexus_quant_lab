@@ -1,9 +1,9 @@
 """
-NEXUS QUANT LAB — V5.2 MASTER "WAR ROOM" Visualizer
+NEXUS QUANT LAB — V5.3 MASTER "WAR ROOM" Visualizer
 =====================================================
 war_map_generator_v2.py
 
-GENERADOR DE MAPAS DE GUERRA V5.2 — BLINDAJE TOTAL
+GENERADOR DE MAPAS DE GUERRA V5.3 — BLINDAJE TOTAL
 
 Capas visuales:
   1. Velas H1 en vivo (desde MT5) — Zoom 35 velas
@@ -21,7 +21,7 @@ Integración:
   generate_war_map(df=df, proba=0.82, direction=1, ...)
 
 Autor: Nexus Quant Lab
-Fecha: 2026-06-02 (V5.2 — Master Blindaje)
+Fecha: 2026-06-02 (V5.3 — Master Blindaje)
 """
 
 import os
@@ -135,10 +135,10 @@ def generate_war_map(
     output_path: str = "logs/war_map.html",
 ):
     """
-    WAR ROOM MASTER V5.2: Blindaje total de capas y detección dinámica de tiempo.
+    WAR ROOM MASTER V5.3: Blindaje total de capas y detección dinámica de tiempo.
     Integra OTE, LuxAlgo, HTF, Bid/Ask, Sesiones, OPEN DAY y Killzones.
 
-    V5.2 — MASTER BLINDAJE:
+    V5.3 — MASTER BLINDAJE:
       - Detección dinámica de días (OPEN DAY) — NUNCA FALLA
       - Killzones (08:00-12:00) para cada día visible
       - Smart Labels con anticolisión (1.5 pips de margen)
@@ -422,21 +422,21 @@ def generate_war_map(
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_str)
 
-    logger.info(f"🗺️ V5.2 Mapa de Guerra generado: {output_path}")
+    logger.info(f"🗺️ V5.3 Mapa de Guerra generado: {output_path}")
     return output_path
 
 
 # ──────────────────────────────────────────────
-# DEMO: GENERAR MAPA DE GUERRA V5.2
+# DEMO: GENERAR MAPA DE GUERRA V5.3
 # ──────────────────────────────────────────────
 
 def run_demo():
     """
-    Genera un Mapa de Guerra V5.2 de demostración con datos sintéticos.
+    Genera un Mapa de Guerra V5.3 de demostración con datos sintéticos.
     Incluye múltiples días para probar la detección dinámica de OPEN DAY.
     """
     print("\n" + "=" * 70)
-    print("🗺️ V5.2 DEMO: WAR MAP GENERATOR — 'MASTER BLINDAJE'")
+    print("🗺️ V5.3 DEMO: WAR MAP GENERATOR — 'MASTER BLINDAJE'")
     print("   Generando mapa de guerra con detección dinámica de días...")
     print("=" * 70)
 
@@ -487,7 +487,7 @@ def run_demo():
         output_path="logs/war_map_demo.html",
     )
 
-    print(f"\n✅ Mapa de Guerra V5.2 generado: logs/war_map_demo.html")
+    print(f"\n✅ Mapa de Guerra V5.3 generado: logs/war_map_demo.html")
     print(f"   📊 Velas: {n_candles} (Zoom 35)")
     print(f"   🧠 IA: 82.0% LONG")
     print(f"   ✅ Consejo: APROBADO")

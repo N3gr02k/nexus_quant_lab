@@ -1,22 +1,19 @@
-# NEXUS QUANT LAB — Dependencias
-# ================================
+# NEXUS QUANT LAB — Dependencias del Cerebro (Contenedor Docker)
+# ==============================================================
+# NOTA: MetaTrader5 NO va aquí. MT5 solo vive en Windows.
+# El Cerebro recibe datos vía API REST (FastAPI).
 
-# Core
-pandas>=2.0.0
-numpy>=1.24.0
+# Core científico
+pandas==2.2.2
+numpy==1.26.4
 
-# Conexión con MetaTrader 5
-MetaTrader5>=5.0.45
+# Machine Learning
+scikit-learn==1.5.0
+xgboost==2.0.3
 
-# Visualización
-matplotlib>=3.7.0
-seaborn>=0.12.0
+# Serialización de modelos
+joblib==1.4.2
 
-# Estadística avanzada (cointegración)
-statsmodels>=0.14.0
-
-# Almacenamiento eficiente (opcional)
-pyarrow>=12.0.0
-
-# Notebooks
-jupyter>=1.0.0
+# API REST (Puente entre Windows y Docker)
+fastapi==0.111.0
+uvicorn==0.30.1

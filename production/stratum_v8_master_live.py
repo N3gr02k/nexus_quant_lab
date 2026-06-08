@@ -1,5 +1,5 @@
 """
-NEXUS QUANT LAB — V8.4 MASTER LIVE
+NEXUS QUANT LAB — V8.5 MASTER LIVE
 ====================================
 stratum_v8_master_live.py
 
@@ -26,7 +26,7 @@ Dependencias:
   pip install MetaTrader5 pandas numpy xgboost joblib plotly
 
 Autor: Nexus Quant Lab
-Fecha: 2026-06-01 (V8.4 — Full Chart Mode)
+Fecha: 2026-06-01 (V8.5 — Full Chart Mode)
 """
 
 import sys
@@ -55,12 +55,13 @@ from production.stratum_sentinel_orchestrator_v8 import (
 )
 from production.war_map_generator_v2 import generate_war_map
 from production.strategy_engine import SMCEngine
+from production.brain_client import BrainDockerClient
 
 # ──────────────────────────────────────────────────────────────────────
-# CONFIGURACIÓN DE COMBATE V8.4
+# CONFIGURACIÓN DE COMBATE V8.5
 # ──────────────────────────────────────────────────────────────────────
 SYMBOL_LIST = ["EURUSD", "GOLD"]
-THRESHOLD = 0.75          # Confianza mínima del Sniper
+THRESHOLD = 0.55          # Confianza mínima del Sniper
 RISK_PER_TRADE = 0.01     # 1% de riesgo por trade
 MAGIC_MASTER = 828282     # Magic Number para identificar órdenes del bot
 AUDIT_LOG_PATH = "logs/sentinel_audit.csv"
@@ -380,7 +381,7 @@ class MT5Connector:
                 "price": price,
                 "deviation": 10,
                 "magic": self.magic,
-                "comment": "V8.4-CLOSE",
+                "comment": "V8.5-CLOSE",
                 "type_time": mt5.ORDER_TIME_GTC,
                 "type_filling": mt5.ORDER_FILLING_IOC,
             }
@@ -421,7 +422,7 @@ def get_alpha_vector_15d(df, symbol, audit_data, other_symbol_data=None):
     from datetime import datetime
     
     # 1. Datos de Sesión
-    now_utc = datetime.utcnow()
+    now_utc = datetime.now(timezone.utc)
     is_ny = 1 if (13 <= now_utc.hour <= 20) else 0
     is_fixing = 1 if (now_utc.hour == 19) else 0
     
@@ -639,7 +640,7 @@ def update_war_map(
 
 def main():
     """
-    Punto de entrada principal del V8.4 Master Live.
+    Punto de entrada principal del V8.5 Master Live.
     
     Ciclo de vida:
       1. Inicializar MT5, modelos, orquestador
@@ -649,7 +650,7 @@ def main():
       5. En shutdown: cerrar conexiones y exportar logs
     """
     logger.info("=" * 70)
-    logger.info("🚀 DESPLEGANDO TERMINAL DE COMANDO V8.4 — FULL CHART MODE")
+    logger.info("🚀 DESPLEGANDO TERMINAL DE COMANDO V8.5 — FULL CHART MODE")
     logger.info("   Pipeline: Modelos → TickAuditor → SentinelCouncil → Mapas de Guerra → XM")
     logger.info("=" * 70)
     
@@ -662,9 +663,38 @@ def main():
     if not mt5_connected:
         logger.warning("⚠️ MT5 no disponible. Ejecutando en MODO SIMULACIÓN.")
     
-    # Cargar modelos
-    model_loader = ModelLoader()
-    model_loader.load_all()
+    # ─── [EXP-021] INICIALIZACIÓN CEREBRO DISTRIBUIDO ───
+    # Estrategia: Docker-first. Solo cargamos modelos locales si Docker no responde.
+    DOCKER_API_URL = "http://localhost:8000"
+    use_docker = False
+    model_loader = None
+    
+    # 1. Intentar conectar con Docker primero
+    try:
+        import requests
+        response = requests.get(DOCKER_API_URL, timeout=2)
+        if response.status_code == 200:
+            use_docker = True
+            logger.info("📡 [SISTEMA DISTRIBUIDO] Docker Brain API detectado y operativo.")
+            logger.info("   🚫 Modelos .pkl NO se cargarán en Windows (ahorro de RAM).")
+        else:
+            logger.warning(f"⚠️ Docker respondió con status {response.status_code}. Usando fallback local.")
+    except ImportError:
+        logger.warning("⚠️ requests no instalado. Usando fallback local.")
+    except Exception as e:
+        logger.warning(f"⚠️ Docker Brain API no detectada: {e}")
+        logger.warning("   Intentando carga local de modelos (Fallback)...")
+    
+    # 2. Carga local SOLO si Docker no está disponible
+    if not use_docker:
+        model_loader = ModelLoader()
+        model_loader.load_all()
+        if not model_loader._loaded:
+            logger.error("❌ Error crítico: Ni Docker ni modelos locales disponibles.")
+            logger.error("   El sistema no podrá realizar inferencias de IA.")
+    else:
+        # Crear ModelLoader vacío para que el código no falle al referenciarlo
+        model_loader = ModelLoader()  # No llama a load_all(), queda con _loaded = False
     
     # Inicializar orquestador V8.0 (incluye Sentinel V2 internamente)
     orchestrator = SentinelOrchestrator()
@@ -734,6 +764,11 @@ def main():
                         logger.info(f"\n{'─' * 40}")
                         logger.info(f"📊 Analizando {symbol}...")
                         
+                        # ─── [FIX CRÍTICO V8.5.2] INICIALIZAR SniperSignal EN None ───
+                        # Esto evita UnboundLocalError si el flujo de ejecución
+                        # salta la creación de SniperSignal por cualquier error intermedio.
+                        SniperSignal_local = None
+                        
                         # A. Obtener precio actual
                         bid, ask, spread = mt5_conn.get_tick(symbol)
                         if bid == 0.0 and mt5_connected:
@@ -744,7 +779,7 @@ def main():
                         import MetaTrader5 as mt5
                         df_h1 = mt5_conn.get_rates(symbol, mt5.TIMEFRAME_H1, 100)
                         
-                        # C. Obtener predicción del modelo (Alpha Brain V8.4 — 15 Factores)
+                        # C. Obtener predicción del modelo (Alpha Brain V8.5 — 15 Factores)
                         snapshot = orchestrator.tick_auditor.compute_metrics(symbol)
                         
                         # Preparar auditoría para el vector de 15 dimensiones
@@ -770,60 +805,83 @@ def main():
                         # Construir vector Alfa de 15 dimensiones (sincronizado con el laboratorio)
                         alpha_dict = get_alpha_vector_15d(df_h1, symbol, audit_data, other_data)
                         
-                        # Sincronización exacta con el StandardScaler del laboratorio
+                        # ─── [EXP-021] INFERENCIA VÍA DOCKER (MICROSERVICIO) ───
+                        # El orquestador ya no carga modelos .pkl localmente.
+                        # Envía los 15 factores alfa al cerebro en Docker vía REST API.
+                        docker_ok = False
                         try:
-                            # PASO 1: Escalar con 15 dimensiones (scaler fue entrenado con one-hot regime)
-                            scaler_feature_names = model_loader.scaler.feature_names_in_
-                            X_list_15d = [alpha_dict.get(name, 0.0) for name in scaler_feature_names]
-                            X_15d = pd.DataFrame([X_list_15d], columns=scaler_feature_names)
-                            X_scaled_15d = model_loader.scaler.transform(X_15d)
+                            brain_client = BrainDockerClient()
+                            estado, veto, razon, detalles = brain_client.evaluate(alpha_dict)
                             
-                            # PASO 2: Colapsar one-hot (3 columnas) a feature única 'alpha_regime' para el modelo
-                            # El modelo XGBoost fue entrenado con 13 features (no 15)
-                            model_feature_names = model_loader.models[symbol].feature_names_in_
-                            # Convertir el array escalado a DataFrame con nombres del scaler
-                            X_scaled_df = pd.DataFrame(X_scaled_15d, columns=scaler_feature_names)
+                            # ─── [EXP-021] SELLO DE ORIGEN: Trazabilidad Docker ───
+                            origen = detalles.get('processed_by', 'LOCAL_FALLBACK')
                             
-                            # Colapsar one-hot regime a feature única
-                            regime_map = {
-                                'alpha_regime_high_vol': 'ALTA VOLATILIDAD',
-                                'alpha_regime_low_vol': 'BAJA VOLATILIDAD',
-                                'alpha_regime_normal': 'NEUTRO',
-                            }
-                            # Determinar el régimen activo
-                            active_regime = 'NEUTRO'
-                            for col, regime_name in regime_map.items():
-                                if X_scaled_df[col].iloc[0] > 0.5:
-                                    active_regime = regime_name
-                                    break
-                            
-                            # Construir vector de 13 features para el modelo
-                            X_model_dict = {}
-                            for name in model_feature_names:
-                                if name == 'alpha_regime':
-                                    # Asignar el valor escalado correspondiente al régimen activo
-                                    if active_regime == 'ALTA VOLATILIDAD':
-                                        X_model_dict[name] = X_scaled_df['alpha_regime_high_vol'].iloc[0]
-                                    elif active_regime == 'BAJA VOLATILIDAD':
-                                        X_model_dict[name] = X_scaled_df['alpha_regime_low_vol'].iloc[0]
-                                    else:
-                                        X_model_dict[name] = X_scaled_df['alpha_regime_normal'].iloc[0]
-                                else:
-                                    X_model_dict[name] = X_scaled_df[name].iloc[0]
-                            
-                            X_model = pd.DataFrame([X_model_dict], columns=model_feature_names)
-                            model = model_loader.models[symbol]
-                            proba = model.predict_proba(X_model)[0][1]
-                            direction = "LONG" if proba > 0.5 else "SHORT"
-                            proba = max(proba, 1 - proba)
-                            
-                            logger.info(f"   🧠 Predicción {symbol} (15 Factores → 13 Modelo): {proba*100:.2f}% → {direction}")
+                            if veto:
+                                # Docker vetó — respetar veto, no hacer fallback
+                                logger.warning(f"   🛡️ VETO DE DOCKER: {razon} | Origen: {origen}")
+                                proba = 0.0
+                                direction = "SHORT"
+                                docker_ok = True  # No hacer fallback, respetar veto
+                            else:
+                                # Extraer predicción del veredicto de Docker
+                                proba = detalles.get('proba', 0.5)
+                                direction = detalles.get('direction', 'LONG')
+                                logger.info(f"   🧠 Docker {symbol}: {proba*100:.2f}% → {direction} (Estado: {estado}) | Origen: {origen}")
+                                docker_ok = True
+                            # ──────────────────────────────────────────────────────
                         except Exception as e:
-                            logger.error(f"❌ Error en pipeline de inteligencia {symbol}: {e}")
-                            # Fallback: usar método predict tradicional
-                            features = build_features_from_ticks(symbol, snapshot)
-                            direction, proba = model_loader.predict(symbol, features)
-                            logger.info(f"   ⚠️ Fallback {symbol}: {direction} @ {proba:.2%}")
+                            logger.warning(f"⚠️ Docker no disponible ({e}). Usando fallback local.")
+                        
+                        if not docker_ok:
+                            # Fallback: pipeline de inferencia local (scaler + XGBoost)
+                            if model_loader is None or not model_loader._loaded:
+                                logger.error("❌ No hay modelos locales disponibles para fallback.")
+                                proba = 0.0
+                                direction = "SHORT"
+                            else:
+                                try:
+                                    scaler_feature_names = model_loader.scaler.feature_names_in_
+                                    X_list_15d = [alpha_dict.get(name, 0.0) for name in scaler_feature_names]
+                                    X_15d = pd.DataFrame([X_list_15d], columns=scaler_feature_names)
+                                    X_scaled_15d = model_loader.scaler.transform(X_15d)
+                                    
+                                    model_feature_names = model_loader.models[symbol].feature_names_in_
+                                    X_scaled_df = pd.DataFrame(X_scaled_15d, columns=scaler_feature_names)
+                                    
+                                    regime_map = {
+                                        'alpha_regime_high_vol': 'ALTA VOLATILIDAD',
+                                        'alpha_regime_low_vol': 'BAJA VOLATILIDAD',
+                                        'alpha_regime_normal': 'NEUTRO',
+                                    }
+                                    active_regime = 'NEUTRO'
+                                    for col, regime_name in regime_map.items():
+                                        if X_scaled_df[col].iloc[0] > 0.5:
+                                            active_regime = regime_name
+                                            break
+                                    
+                                    X_model_dict = {}
+                                    for name in model_feature_names:
+                                        if name == 'alpha_regime':
+                                            if active_regime == 'ALTA VOLATILIDAD':
+                                                X_model_dict[name] = X_scaled_df['alpha_regime_high_vol'].iloc[0]
+                                            elif active_regime == 'BAJA VOLATILIDAD':
+                                                X_model_dict[name] = X_scaled_df['alpha_regime_low_vol'].iloc[0]
+                                            else:
+                                                X_model_dict[name] = X_scaled_df['alpha_regime_normal'].iloc[0]
+                                        else:
+                                            X_model_dict[name] = X_scaled_df[name].iloc[0]
+                                    
+                                    X_model = pd.DataFrame([X_model_dict], columns=model_feature_names)
+                                    model = model_loader.models[symbol]
+                                    proba = model.predict_proba(X_model)[0][1]
+                                    direction = "LONG" if proba > 0.5 else "SHORT"
+                                    proba = max(proba, 1 - proba)
+                                    logger.info(f"   ⚠️ Fallback local {symbol}: {proba*100:.2f}% → {direction}")
+                                except Exception as e2:
+                                    logger.error(f"❌ Fallback local también falló {symbol}: {e2}")
+                                    features = build_features_from_ticks(symbol, snapshot)
+                                    direction, proba = model_loader.predict(symbol, features)
+                                    logger.info(f"   ⚠️ Fallback último recurso {symbol}: {direction} @ {proba:.2%}")
                         
                         # D. EJECUTAR LÓGICA SMC SQUAD (V8.5)
                         if not df_h1.empty:
@@ -856,56 +914,103 @@ def main():
                         sl_price = entry_price - sl_distance if direction == "LONG" else entry_price + sl_distance
                         tp_price = entry_price + tp_distance if direction == "LONG" else entry_price - tp_distance
                         
-                        # D. Determinar confianza
-                        if proba >= 0.85:
-                            confidence = "ALTA"
-                        elif proba >= 0.75:
-                            confidence = "MEDIA"
-                        else:
-                            confidence = "BAJA"
-                        
-                        # E. Crear señal del Sniper
-                        signal = SniperSignal(
-                            symbol=symbol,
-                            direction=direction,
-                            proba=proba,
-                            confidence=confidence,
-                            entry_price=entry_price,
-                            sl_price=sl_price,
-                            tp_price=tp_price,
-                        )
-                        
-                        # F. PASAR POR EL CONSEJO DE CENTINELAS
-                        logger.info(f"   🛡️ Consultando al Consejo de Centinelas...")
-                        order = orchestrator.process_signal(signal)
-                        
-                        # Actualizar estado para los mapas
-                        state[symbol]['p'] = proba
-                        state[symbol]['dir'] = 1 if direction == "LONG" else -1
-                        state[symbol]['atr'] = atr
-                        
-                        if order:
-                            state[symbol]['verdict'] = "APROBADO"
-                            state[symbol]['reason'] = ""
-                            logger.info(f"   🔥 ORDEN APROBADA POR EL CONSEJO: {symbol}")
-                            
-                            # G. ENVIAR ORDEN A MT5
-                            if mt5_connected:
-                                success = mt5_conn.send_order(order)
-                                if success:
-                                    logger.info(f"   ✅ Orden enviada a MT5: {symbol} {direction}")
-                                else:
-                                    logger.error(f"   ❌ Fallo al enviar orden a MT5")
+                        # ─── [FIX V8.5.2] SÓLO SI SniperSignal TIENE VALOR ───
+                        # Si la IA da señal con suficiente confianza, creamos SniperSignal
+                        if proba >= 0.55:
+                            # Determinar confianza
+                            if proba >= 0.85:
+                                confidence = "ALTA"
                             else:
-                                logger.info(f"   📝 [SIMULACIÓN] Orden lista para enviar: "
-                                           f"{symbol} {direction} {order.volume_lots} lots")
+                                confidence = "MEDIA"
+                            
+                            # Crear señal del Sniper
+                            SniperSignal_local = SniperSignal(
+                                symbol=symbol,
+                                direction=direction,
+                                proba=proba,
+                                confidence=confidence,
+                                entry_price=entry_price,
+                                sl_price=sl_price,
+                                tp_price=tp_price,
+                            )
+                            logger.info(f"   🎯 Señal Sniper creada: {symbol} {direction} @ {proba*100:.1f}%")
+                        
+                        # ─── [FIX V8.5.2] SÓLO PROCESAR SI HAY SEÑAL ───
+                        if SniperSignal_local is not None:
+                            signal = SniperSignal_local
+                            
+                            # PASAR POR EL CONSEJO DE CENTINELAS
+                            logger.info(f"   🛡️ Consultando al Consejo de Centinelas...")
+                            order = orchestrator.process_signal(signal)
+                            
+                            # Actualizar estado para los mapas
+                            state[symbol]['p'] = proba
+                            state[symbol]['dir'] = 1 if direction == "LONG" else -1
+                            state[symbol]['atr'] = atr
+                            
+                            # ─── LÓGICA DE VETO CON BYPASS DE ALTA CONFIANZA (V8.5) ───
+                            if order:
+                                state[symbol]['verdict'] = "APROBADO"
+                                state[symbol]['reason'] = ""
+                                logger.info(f"   🔥 ORDEN APROBADA POR EL CONSEJO: {symbol}")
+                                
+                                # ENVIAR ORDEN A MT5
+                                if mt5_connected:
+                                    success = mt5_conn.send_order(order)
+                                    if success:
+                                        logger.info(f"   ✅ Orden enviada a MT5: {symbol} {direction}")
+                                    else:
+                                        logger.error(f"   ❌ Fallo al enviar orden a MT5")
+                                else:
+                                    logger.info(f"   📝 [SIMULACIÓN] Orden lista para enviar: "
+                                               f"{symbol} {direction} {order.volume_lots} lots")
+                            else:
+                                # Obtener razón del veto
+                                council_status = orchestrator.get_war_room_status()
+                                veto_reason = council_status.get('veto_profile', {}).get('last_veto_reason', 'Veto del Consejo')
+                                
+                                # ⚡ BYPASS DE CONFIANZA: Si la IA tiene >90%, ignoramos el veto del consejo
+                                if proba >= 0.90:
+                                    logger.info(f"   ⚡ BYPASS DE CONFIANZA: IA {proba*100:.1f}% sobrepasa el veto del Consejo ({veto_reason}).")
+                                    state[symbol]['verdict'] = "APROBADO (BYPASS)"
+                                    state[symbol]['reason'] = f"Bypass por alta confianza ({proba*100:.1f}%)"
+                                    
+                                    # Reconstruir orden para bypass
+                                    if mt5_connected:
+                                        # Crear orden manualmente si el orquestador no la generó
+                                        bypass_signal = SniperSignal(
+
+                                            symbol=symbol,
+                                            direction=direction,
+                                            proba=proba,
+                                            confidence="ALTA",
+                                            entry_price=entry_price,
+                                            sl_price=sl_price,
+                                            tp_price=tp_price,
+                                        )
+                                        bypass_order = orchestrator.process_signal(bypass_signal)
+                                        if bypass_order:
+                                            success = mt5_conn.send_order(bypass_order)
+                                            if success:
+                                                logger.info(f"   ✅ BYPASS: Orden enviada a MT5: {symbol} {direction}")
+                                            else:
+                                                logger.error(f"   ❌ BYPASS: Fallo al enviar orden a MT5")
+                                        else:
+                                            logger.info(f"   📝 [SIMULACIÓN BYPASS] Orden lista: {symbol} {direction}")
+                                    else:
+                                        logger.info(f"   📝 [SIMULACIÓN BYPASS] Orden lista: {symbol} {direction}")
+                                else:
+                                    state[symbol]['verdict'] = "VETADO"
+                                    state[symbol]['reason'] = veto_reason
+                                    logger.info(f"   🛡️ SEÑAL VETADA EN {symbol}: {veto_reason}")
                         else:
-                            # Obtener razón del veto
-                            council_status = orchestrator.get_war_room_status()
-                            veto_reason = council_status.get('veto_profile', {}).get('last_veto_reason', 'Veto del Consejo')
-                            state[symbol]['verdict'] = "VETADO"
-                            state[symbol]['reason'] = veto_reason
-                            logger.info(f"   🛡️ SEÑAL VETADA EN {symbol}: {veto_reason}")
+                            # No hay señal - confianza por debajo del umbral
+                            logger.info(f"   ⏭️ {symbol}: Sin señal (proba={proba*100:.1f}% < 55%)")
+                            state[symbol]['p'] = proba
+                            state[symbol]['dir'] = 1 if direction == "LONG" else -1
+                            state[symbol]['atr'] = atr
+                            state[symbol]['verdict'] = "SIN SEÑAL"
+                            state[symbol]['reason'] = f"Confianza insuficiente ({proba*100:.1f}%)"
                     
                     except Exception as e:
                         logger.error(f"❌ Error procesando {symbol}: {e}")
@@ -945,7 +1050,7 @@ def main():
     
     except KeyboardInterrupt:
         logger.info(f"\n{'=' * 70}")
-        logger.info("🛑 STRATUM V8.4 DETENIDO POR EL USUARIO")
+        logger.info("🛑 STRATUM V8.5 DETENIDO POR EL USUARIO")
         logger.info(f"{'=' * 70}")
     
     except Exception as e:
@@ -964,7 +1069,7 @@ def main():
         # Cerrar MT5
         mt5_conn.shutdown()
         
-        logger.info("👋 STRATUM NEXUS V8.4 FINALIZADO")
+        logger.info("👋 STRATUM NEXUS V8.5 FINALIZADO")
         logger.info(f"   Tiempo total: {(datetime.now(timezone.utc) - start_time).total_seconds() / 60:.1f} minutos")
         logger.info(f"   Mapas: logs/war_room_eurusd.html, logs/war_room_gold.html")
         logger.info(f"   Auditoría: {AUDIT_LOG_PATH}")

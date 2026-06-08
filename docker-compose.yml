@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  nexus-brain:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: nexus_sentinel_brain
+    ports:
+      - "8000:8000"
+    volumes:
+      # Docker solo necesita ver los modelos (.pkl) para predecir
+      - ./models:/app/models
+      # Y el código de la API que está en la carpeta docker
+      - ./docker:/app/docker
+    environment:
+      - ENV=production
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+networks:
+  default:
+    name: nexus_network

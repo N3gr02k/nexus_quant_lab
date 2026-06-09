@@ -71,6 +71,12 @@ except ImportError:
     logger.error("❌ No se pudo importar SentinelV2Engine.")
     SentinelV2Engine = None
 
+try:
+    from core.meta_brain_v10 import MetaBrainV10
+except ImportError:
+    logger.error("❌ No se pudo importar MetaBrainV10 (Fase 10).")
+    MetaBrainV10 = None
+
 
 @dataclass
 class TickSnapshot:
@@ -365,6 +371,17 @@ class SentinelOrchestrator:
         else:
             logger.warning("⚠️ SentinelV2Engine no disponible. Saltando capa de personalidad.")
         
+        # ─── META-BRAIN V10 (Capa de Utilidad Adaptativa) ───
+        self.meta_brain = None
+        if MetaBrainV10 is not None:
+            try:
+                self.meta_brain = MetaBrainV10()
+                logger.info("🧬 Meta-Brain V10 integrado (3 capas: Mercado + Sistema + Utilidad)")
+            except Exception as e:
+                logger.warning(f"⚠️ No se pudo inicializar Meta-Brain V10: {e}")
+        else:
+            logger.warning("⚠️ MetaBrainV10 no disponible. Saltando capa de utilidad adaptativa.")
+        
         # Estado del orquestador
         self.state = {
             "signals_processed": 0,
@@ -379,6 +396,13 @@ class SentinelOrchestrator:
             "sentinel_v2_approved": 0,
             "sentinel_v2_last_state": None,
             "sentinel_v2_last_reason": "",
+            # Estado del Meta-Brain V10
+            "meta_brain_vetoes": 0,
+            "meta_brain_approved": 0,
+            "meta_brain_last_utility": None,
+            "meta_brain_last_market_state": None,
+            "meta_brain_last_system_state": None,
+            "meta_brain_last_adjustments": None,
         }
         
         # Log de auditoría
@@ -386,7 +410,7 @@ class SentinelOrchestrator:
         
         logger.info("=" * 70)
         logger.info("🚀 V8.0 SENTINEL ORCHESTRATOR INICIALIZADO")
-        logger.info("   Pipeline: Sniper → TickAuditor → SentinelV2 → SentinelCouncil → XM")
+        logger.info("   Pipeline: Sniper → TickAuditor → SentinelV2 → SentinelCouncil → MetaBrain → XM")
         logger.info("=" * 70)
     
     def _build_alpha_features(self, symbol: str, snapshot: TickSnapshot) -> dict:
@@ -609,8 +633,14 @@ class SentinelOrchestrator:
             "council_approved": verdict.approved,
             "council_veto_reason": verdict.reason if not verdict.approved else "",
             "council_veto_layer": verdict.veto_layer if not verdict.approved else "",
+            # Meta-Brain V10
+            "meta_brain_utility": meta_brain_utility,
+            "meta_brain_veto": meta_brain_veto,
+            "meta_brain_market_state": meta_brain_market_state,
+            "meta_brain_system_state": meta_brain_system_state,
+            "meta_brain_adjustments": str(meta_brain_adjustments) if meta_brain_adjustments else "",
             # Veredicto final
-            "approved": verdict.approved and not sentinel_v2_veto,
+            "approved": verdict.approved and not sentinel_v2_veto and not meta_brain_veto,
         }
         self.audit_log.append(audit_entry)
         
@@ -629,23 +659,136 @@ class SentinelOrchestrator:
             logger.warning(f"   Capa: {verdict.veto_layer}")
             return None
         
-        # ─── PASO 5: GENERAR ORDEN ───
+        # ─── PASO 4.5: META-BRAIN V10 (Capa de Utilidad Adaptativa) ───
+        meta_brain_veto = False
+        meta_brain_utility = None
+        meta_brain_market_state = None
+        meta_brain_system_state = None
+        meta_brain_adjustments = None
+        
+        if self.meta_brain is not None:
+            logger.info("🧬 Consultando Meta-Brain V10 (utilidad adaptativa)...")
+            try:
+                # Calcular expected_reward_ratio (TP/SL en ATR)
+                sl_atr = abs(signal.entry_price - signal.sl_price) / max(snapshot.current_atr, 1e-10)
+                tp_atr = abs(signal.tp_price - signal.entry_price) / max(snapshot.current_atr, 1e-10)
+                expected_reward_ratio = tp_atr / max(sl_atr, 1e-10)
+                
+                # Obtener datos del sistema para el Meta-Brain
+                win_rate_24h = self.council.state.get("win_rate", 0.5)
+                drawdown = self.council.state.get("max_drawdown_pct", 0.0)
+                consecutive_losses = self.council.state.get("consecutive_losses", 0)
+                
+                # Evaluar con el Meta-Brain (API real: parámetros planos)
+                decision = self.meta_brain.evaluate(
+                    probability=signal.proba,
+                    expected_reward_ratio=expected_reward_ratio,
+                    atr_current=snapshot.current_atr,
+                    atr_median=snapshot.current_atr * 0.8,  # Estimación: ATR mediano ≈ 80% del actual
+                    volume_delta=snapshot.volume_delta,
+                    momentum_3h=alpha_features.get("alpha_mom_3h", 0.0),
+                    momentum_6h=alpha_features.get("alpha_mom_6h", 0.0),
+                    divergence=alpha_features.get("alpha_divergence", 0.0),
+                    hour_utc=datetime.now(timezone.utc).hour,
+                    rejection_speed=snapshot.rejection_speed,
+                    tick_vol_std=snapshot.rejection_speed,  # Proxy
+                    win_rate_24h=win_rate_24h,
+                    drawdown=drawdown,
+                    consecutive_losses=consecutive_losses,
+                    latency_ms=0.0,
+                    brain_confidence=signal.proba,
+                )
+                
+                # Extraer resultados del UtilityDecision
+                meta_brain_utility = decision.utility_score
+                meta_brain_market_state = decision.details.get("market_state", "UNKNOWN")
+                meta_brain_system_state = decision.details.get("system_alert", "UNKNOWN")
+                meta_brain_adjustments = {
+                    "confidence_threshold": decision.adjusted_confidence,
+                    "risk_per_trade": decision.adjusted_risk_pct,
+                    "sl_atr": decision.adjusted_sl_atr,
+                    "tp_atr": decision.adjusted_tp_atr,
+                }
+                
+                # El Meta-Brain puede vetar si utility <= threshold
+                if not decision.should_trade:
+                    meta_brain_veto = True
+                    self.state["meta_brain_vetoes"] += 1
+                    logger.warning(f"   🧬 META-BRAIN VETA: utilidad={meta_brain_utility:.4f} ≤ umbral={decision.threshold:.4f}")
+                else:
+                    self.state["meta_brain_approved"] += 1
+                    logger.info(f"   ✅ Meta-Brain aprueba: utilidad={meta_brain_utility:.4f} > umbral={decision.threshold:.4f}")
+                    logger.info(f"   📊 Mercado: {meta_brain_market_state} | Sistema: {meta_brain_system_state}")
+                    logger.info(f"   🔧 Confianza={decision.adjusted_confidence:.2f} | Riesgo={decision.adjusted_risk_pct*100:.2f}% | SL={decision.adjusted_sl_atr:.1f}ATR | TP={decision.adjusted_tp_atr:.1f}ATR")
+                
+                # Actualizar estado
+                self.state["meta_brain_last_utility"] = meta_brain_utility
+                self.state["meta_brain_last_market_state"] = meta_brain_market_state
+                self.state["meta_brain_last_system_state"] = meta_brain_system_state
+                self.state["meta_brain_last_adjustments"] = meta_brain_adjustments
+                
+            except Exception as e:
+                logger.warning(f"   ⚠️ Error en Meta-Brain V10: {e}")
+                import traceback
+                logger.warning(traceback.format_exc())
+                meta_brain_veto = False  # No vetar por error
+        else:
+            logger.info("   ⏭️ Meta-Brain V10 no disponible, saltando capa de utilidad")
+        
+        # Si el Meta-Brain veta, la orden se rechaza
+        if meta_brain_veto:
+            self.state["orders_vetoed"] += 1
+            logger.warning(f"❌ VETO DEL META-BRAIN V10: utilidad={meta_brain_utility:.4f}")
+            return None
+        
+        # ─── PASO 5: GENERAR ORDEN CON AJUSTES DEL META-BRAIN ───
         self.state["orders_executed"] += 1
+        
+        # Calcular lot size base
+        base_lot_size = self._calculate_lot_size(signal, snapshot)
+        
+        # Aplicar ajustes del Meta-Brain si existen
+        if meta_brain_adjustments:
+            # Ajustar risk_per_trade como multiplicador de lot size
+            # risk_per_trade viene como fracción (ej: 0.01 = 1%), lo normalizamos como multiplicador
+            risk_pct = meta_brain_adjustments.get("risk_per_trade", 0.01)
+            # Mapear: 0.25% → 0.5x, 1% → 1.0x, 2.5% → 2.0x
+            risk_multiplier = risk_pct / 0.01  # Normalizar a 1% base
+            adjusted_lots = base_lot_size * risk_multiplier
+            
+            # Ajustar SL y TP en ATR
+            sl_atr_mult = meta_brain_adjustments.get("sl_atr", None)
+            tp_atr_mult = meta_brain_adjustments.get("tp_atr", None)
+            
+            if sl_atr_mult is not None:
+                adjusted_sl = signal.entry_price - (snapshot.current_atr * sl_atr_mult) if signal.direction == "LONG" else signal.entry_price + (snapshot.current_atr * sl_atr_mult)
+            else:
+                adjusted_sl = signal.sl_price
+            
+            if tp_atr_mult is not None:
+                adjusted_tp = signal.entry_price + (snapshot.current_atr * tp_atr_mult) if signal.direction == "LONG" else signal.entry_price - (snapshot.current_atr * tp_atr_mult)
+            else:
+                adjusted_tp = signal.tp_price
+        else:
+            adjusted_lots = base_lot_size
+            adjusted_sl = signal.sl_price
+            adjusted_tp = signal.tp_price
         
         order = ExecutionOrder(
             symbol=signal.symbol,
             direction=signal.direction,
-            volume_lots=self._calculate_lot_size(signal, snapshot),
+            volume_lots=max(0.01, round(adjusted_lots, 2)),
             entry_price=signal.entry_price,
-            sl_price=signal.sl_price,
-            tp_price=signal.tp_price,
-            comment="V8.0-SENTINEL-APPROVED",
+            sl_price=adjusted_sl,
+            tp_price=adjusted_tp,
+            comment="V8.0-SENTINEL-METABRAIN-APPROVED",
         )
         
         self.state["last_order"] = order
         
         logger.info(f"✅ VEREDICTO FINAL: APROBADO")
         logger.info(f"   Sentinel V2: {sentinel_v2_reason} | Consejo: {verdict.reason}")
+        logger.info(f"   Meta-Brain: utilidad={meta_brain_utility or 'N/A'}")
         logger.info(f"📤 ORDEN GENERADA: {order.symbol} {order.direction} {order.volume_lots} lots")
         logger.info(f"   Entry: {order.entry_price:.5f} | SL: {order.sl_price:.5f} | TP: {order.tp_price:.5f}")
         logger.info(f"   Comment: {order.comment}")
@@ -809,6 +952,15 @@ class SentinelOrchestrator:
                 "last_reason": self.state["sentinel_v2_last_reason"],
                 "active": self.sentinel_v2 is not None,
             },
+            "meta_brain": {
+                "vetoes": self.state["meta_brain_vetoes"],
+                "approved": self.state["meta_brain_approved"],
+                "last_utility": self.state["meta_brain_last_utility"],
+                "last_market_state": self.state["meta_brain_last_market_state"],
+                "last_system_state": self.state["meta_brain_last_system_state"],
+                "last_adjustments": self.state["meta_brain_last_adjustments"],
+                "active": self.meta_brain is not None,
+            },
             "veto_profile": veto_summary,
             "orchestrator": {
                 "signals_processed": self.state["signals_processed"],
@@ -865,6 +1017,13 @@ class SentinelOrchestrator:
             f"   ✅ Aprobados: {status['sentinel_v2']['approved']}",
             f"   Último estado: {status['sentinel_v2']['last_state'] or 'N/A'}",
             f"   Última razón: {status['sentinel_v2']['last_reason'] or 'N/A'}",
+            f"\n🧬 META-BRAIN V10 (Utilidad Adaptativa):",
+            f"   {'🟢 Activo' if status['meta_brain']['active'] else '🔴 Inactivo'}",
+            f"   🛡️ Vetos: {status['meta_brain']['vetoes']}",
+            f"   ✅ Aprobados: {status['meta_brain']['approved']}",
+            f"   📊 Última utilidad: {status['meta_brain']['last_utility'] or 'N/A'}",
+            f"   🌍 Mercado: {status['meta_brain']['last_market_state'] or 'N/A'}",
+            f"   🖥️ Sistema: {status['meta_brain']['last_system_state'] or 'N/A'}",
             f"\n⚙️  ORQUESTADOR:",
             f"   📡 Señales procesadas: {status['orchestrator']['signals_processed']}",
             f"   📤 Órdenes ejecutadas: {status['orchestrator']['orders_executed']}",

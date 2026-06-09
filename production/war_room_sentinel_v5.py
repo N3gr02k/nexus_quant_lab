@@ -72,6 +72,22 @@ class WarRoomSentinel:
                 "orders_vetoed": 0,
                 "uptime_minutes": 0,
             },
+            "sentinel_v2": {
+                "vetoes": 0,
+                "approved": 0,
+                "last_state": None,
+                "last_reason": "",
+                "active": False,
+            },
+            "meta_brain": {
+                "vetoes": 0,
+                "approved": 0,
+                "last_utility": None,
+                "last_market_state": None,
+                "last_system_state": None,
+                "last_adjustments": None,
+                "active": False,
+            },
             "last_signal": None,
         }
         
@@ -133,6 +149,8 @@ class WarRoomSentinel:
         veto_profile = self.status.get("veto_profile", {})
         orchestrator = self.status.get("orchestrator", {})
         last_signal = self.status.get("last_signal", {})
+        sentinel_v2 = self.status.get("sentinel_v2", {})
+        meta_brain = self.status.get("meta_brain", {})
         
         # ─── Configuración de colores ───
         semaphore_colors = {
@@ -647,11 +665,58 @@ class WarRoomSentinel:
                 <div class="card-title">📡 Última Señal del Sniper</div>
                 {signal_html}
             </div>
+            
+            <!-- META-BRAIN V10 — TRES CAPAS + HIBERNATION -->
+            <div class="card">
+                <div class="card-title">🧬 Meta-Brain V10 — Utilidad Adaptativa (3 Capas)</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number {'red' if meta_brain.get('vetoes', 0) > 0 else ''}">{meta_brain.get('vetoes', 0)}</div>
+                        <div class="label">🛡️ Vetos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">{meta_brain.get('approved', 0)}</div>
+                        <div class="label">✅ Aprobados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number {'yellow' if meta_brain.get('last_utility', 0) is not None and meta_brain.get('last_utility', 0) > 0 else 'red'}">{meta_brain.get('last_utility', '—') if meta_brain.get('last_utility') is not None else '—'}</div>
+                        <div class="label">📊 Utilidad (métrica maestra)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number {'green' if meta_brain.get('active', False) else 'red'}">{'🟢' if meta_brain.get('active', False) else '🔴'}</div>
+                        <div class="label">{'Activo' if meta_brain.get('active', False) else 'Inactivo'}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 12px; font-size: 12px; color: #888;">
+                    <!-- CAPA 1: Mercado -->
+                    <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #16213e;">
+                        <span>📊 CAPA 1 — Mercado</span>
+                        <span style="color: {'#9B59B6' if meta_brain.get('last_market_state') == 'GOLDEN_STATE' else '#00FF88' if meta_brain.get('last_market_state') == 'FAVORABLE' else '#FFD700' if meta_brain.get('last_market_state') == 'NORMAL' else '#FF3333'};">{meta_brain.get('last_market_state', '—') or '—'}</span>
+                    </div>
+                    <!-- CAPA 2: Sistema -->
+                    <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #16213e;">
+                        <span>🖥️ CAPA 2 — Sistema</span>
+                        <span style="color: {'#00BFFF' if meta_brain.get('last_system_state') == 'HIBERNATION' else '#FF3333' if meta_brain.get('last_system_state') == 'CRITICAL' else '#FF8C00' if meta_brain.get('last_system_state') == 'STRESS' else '#FFD700' if meta_brain.get('last_system_state') == 'CAUTION' else '#00FF88'};">{meta_brain.get('last_system_state', '—') or '—'}</span>
+                    </div>
+                    <!-- CAPA 3: Ajustes -->
+                    <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #16213e;">
+                        <span>⚙️ CAPA 3 — Ajustes</span>
+                        <span style="color: #aaa; font-size: 11px;">{meta_brain.get('last_adjustments', '—') or '—'}</span>
+                    </div>
+                    <!-- HIBERNATION BANNER -->
+                    <div id="hibernation-banner" style="display: {'block' if meta_brain.get('last_system_state') == 'HIBERNATION' else 'none'}; margin-top: 8px; padding: 8px; background: #1a0a2e; border: 1px solid #00BFFF; border-radius: 6px; text-align: center;">
+                        <span style="color: #00BFFF; font-size: 14px; font-weight: bold;">🧊 HIBERNATION ACTIVADO</span>
+                        <br>
+                        <span style="color: #888; font-size: 11px;">Utility forzada a 0. Riesgo al mínimo. Solo observación.</span>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- LOG DE ALERTAS -->
         <div class="card">
             <div class="card-title">🚨 Alertas del Consejo</div>
+
             {alerts_html}
         </div>
         
@@ -732,6 +797,22 @@ def run_demo():
             "orders_executed": 12,
             "orders_vetoed": 8,
             "uptime_minutes": 145,
+        },
+        "sentinel_v2": {
+            "vetoes": 2,
+            "approved": 10,
+            "last_state": "NORMAL",
+            "last_reason": "Mercado en rango, sin black holes detectados",
+            "active": True,
+        },
+        "meta_brain": {
+            "vetoes": 1,
+            "approved": 11,
+            "last_utility": 0.873,
+            "last_market_state": "FAVORABLE",
+            "last_system_state": "NORMAL",
+            "last_adjustments": "conf=0.55, risk=1.2%, SL=1.8ATR, TP=2.5ATR",
+            "active": True,
         },
         "last_signal": {
             "symbol": "EURUSD",

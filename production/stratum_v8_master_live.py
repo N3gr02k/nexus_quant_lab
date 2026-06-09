@@ -9,14 +9,15 @@ Pipeline completo:
   1. INFERENCIA: Cargar modelos .pkl (XGBoost + Alpha Factors)
   2. TICK AUDIT: TickAuditor lee ticks en vivo (MT5)
   3. CONSEJO: SentinelCouncil evalúa contra 6 capas de veto
-  4. MAPAS DE GUERRA: Gráficos de velas interactivos (Plotly) con:
+  4. META-BRAIN V10: Capa de utilidad contextual (mercado + sistema + riesgo)
+  5. MAPAS DE GUERRA: Gráficos de velas interactivos (Plotly) con:
      - Velas H1 en vivo
      - Zona de Oro (OTE 61.8%-78.6%)
      - Muros Púrpuras (D1 High/Low)
      - Símbolos $ de Sweep de Liquidez (LuxAlgo)
      - Swing Highs/Lows (Estructura de mercado)
      - Banner del Consejo en el título
-  5. EJECUCIÓN: Si el Consejo aprueba, se envía la orden a XM
+  6. EJECUCIÓN: Si el Consejo + Meta-Brain aprueban, se envía la orden a XM
 
 Activos gestionados:
   - EURUSD: war_room_eurusd.html
@@ -26,7 +27,7 @@ Dependencias:
   pip install MetaTrader5 pandas numpy xgboost joblib plotly
 
 Autor: Nexus Quant Lab
-Fecha: 2026-06-01 (V8.5 — Full Chart Mode)
+Fecha: 2026-06-09 (V8.5 — Meta-Brain V10.3 Integrado)
 """
 
 import sys
@@ -56,6 +57,7 @@ from production.stratum_sentinel_orchestrator_v8 import (
 from production.war_map_generator_v2 import generate_war_map
 from production.strategy_engine import SMCEngine
 from production.brain_client import BrainDockerClient
+from core.meta_brain_v10 import MetaBrainV10
 
 # ──────────────────────────────────────────────────────────────────────
 # CONFIGURACIÓN DE COMBATE V8.5
@@ -543,7 +545,6 @@ def execute_squad_logic(symbol: str, df: pd.DataFrame, audit: dict) -> dict:
 
 
 def update_war_map(
-
     symbol: str,
     mt5_conn: MT5Connector,
     orchestrator: SentinelOrchestrator,
@@ -643,15 +644,15 @@ def main():
     Punto de entrada principal del V8.5 Master Live.
     
     Ciclo de vida:
-      1. Inicializar MT5, modelos, orquestador
+      1. Inicializar MT5, modelos, orquestador, Meta-Brain
       2. Abrir automáticamente los Mapas de Guerra en el navegador
-      3. Cada hora: ciclo de inferencia y gobernanza
+      3. Cada hora: ciclo de inferencia y gobernanza (Consejo + Meta-Brain)
       4. Cada 30s: actualizar Mapas de Guerra con velas + capas visuales
       5. En shutdown: cerrar conexiones y exportar logs
     """
     logger.info("=" * 70)
     logger.info("🚀 DESPLEGANDO TERMINAL DE COMANDO V8.5 — FULL CHART MODE")
-    logger.info("   Pipeline: Modelos → TickAuditor → SentinelCouncil → Mapas de Guerra → XM")
+    logger.info("   Pipeline: Modelos → TickAuditor → SentinelCouncil → Meta-Brain V10 → Mapas de Guerra → XM")
     logger.info("=" * 70)
     
     # ─── 1. INICIALIZAR COMPONENTES ───
@@ -698,6 +699,16 @@ def main():
     
     # Inicializar orquestador V8.0 (incluye Sentinel V2 internamente)
     orchestrator = SentinelOrchestrator()
+    
+    # ─── [FASE 10] INICIALIZAR META-BRAIN V10.3 ───
+    meta_brain = MetaBrainV10(
+        confidence_threshold=0.55,
+        risk_per_trade=0.01,
+        sl_atr=2.0,
+        tp_atr=4.0,
+    )
+    logger.info("🧬 Meta-Brain V10.3 inicializado (Capa 1: Mercado | Capa 2: Sistema | Capa 3: Utilidad)")
+    logger.info(f"   Límites: confianza=[0.45, 0.75] | riesgo=[0.25%, 2.5%] | SL=[1.0, 3.0]ATR | TP=[0.8, 4.0]ATR")
     
     # Estado compartido para los mapas
     state = {
@@ -765,8 +776,6 @@ def main():
                         logger.info(f"📊 Analizando {symbol}...")
                         
                         # ─── [FIX CRÍTICO V8.5.2] INICIALIZAR SniperSignal EN None ───
-                        # Esto evita UnboundLocalError si el flujo de ejecución
-                        # salta la creación de SniperSignal por cualquier error intermedio.
                         SniperSignal_local = None
                         
                         # A. Obtener precio actual
@@ -789,7 +798,7 @@ def main():
                             'regime': snapshot.regime,
                         }
                         
-                        # Obtener datos del otro símbolo para cross-asset (si está disponible)
+                        # Obtener datos del otro símbolo para cross-asset
                         other_data = None
                         other_sym = "GOLD" if symbol == "EURUSD" else "EURUSD"
                         try:
@@ -800,40 +809,32 @@ def main():
                                 'vol_delta': other_snapshot.volume_delta,
                             }
                         except Exception:
-                            pass  # Cross-asset no disponible, se usan valores por defecto (0.0)
+                            pass
                         
-                        # Construir vector Alfa de 15 dimensiones (sincronizado con el laboratorio)
+                        # Construir vector Alfa de 15 dimensiones
                         alpha_dict = get_alpha_vector_15d(df_h1, symbol, audit_data, other_data)
                         
-                        # ─── [EXP-021] INFERENCIA VÍA DOCKER (MICROSERVICIO) ───
-                        # El orquestador ya no carga modelos .pkl localmente.
-                        # Envía los 15 factores alfa al cerebro en Docker vía REST API.
+                        # ─── [EXP-021] INFERENCIA VÍA DOCKER ───
                         docker_ok = False
                         try:
                             brain_client = BrainDockerClient()
                             estado, veto, razon, detalles = brain_client.evaluate(alpha_dict)
-                            
-                            # ─── [EXP-021] SELLO DE ORIGEN: Trazabilidad Docker ───
                             origen = detalles.get('processed_by', 'LOCAL_FALLBACK')
                             
                             if veto:
-                                # Docker vetó — respetar veto, no hacer fallback
                                 logger.warning(f"   🛡️ VETO DE DOCKER: {razon} | Origen: {origen}")
                                 proba = 0.0
                                 direction = "SHORT"
-                                docker_ok = True  # No hacer fallback, respetar veto
+                                docker_ok = True
                             else:
-                                # Extraer predicción del veredicto de Docker
                                 proba = detalles.get('proba', 0.5)
                                 direction = detalles.get('direction', 'LONG')
                                 logger.info(f"   🧠 Docker {symbol}: {proba*100:.2f}% → {direction} (Estado: {estado}) | Origen: {origen}")
                                 docker_ok = True
-                            # ──────────────────────────────────────────────────────
                         except Exception as e:
                             logger.warning(f"⚠️ Docker no disponible ({e}). Usando fallback local.")
                         
                         if not docker_ok:
-                            # Fallback: pipeline de inferencia local (scaler + XGBoost)
                             if model_loader is None or not model_loader._loaded:
                                 logger.error("❌ No hay modelos locales disponibles para fallback.")
                                 proba = 0.0
@@ -885,7 +886,6 @@ def main():
                         
                         # D. EJECUTAR LÓGICA SMC SQUAD (V8.5)
                         if not df_h1.empty:
-                            # Preparar auditoría para SMC
                             audit_smc = {
                                 'speed': snapshot.rejection_speed,
                                 'vol_delta': snapshot.volume_delta,
@@ -894,7 +894,6 @@ def main():
                             }
                             squad_result = execute_squad_logic(symbol, df_h1, audit_smc)
                             
-                            # Si hay señal SQUAD, registrar en estado
                             if squad_result['squad_attack'] or squad_result['squad_trend']:
                                 state[symbol]['squad'] = squad_result
                                 logger.info(f"   ⚔️ SQUAD MODE ACTIVO en {symbol}")
@@ -914,16 +913,13 @@ def main():
                         sl_price = entry_price - sl_distance if direction == "LONG" else entry_price + sl_distance
                         tp_price = entry_price + tp_distance if direction == "LONG" else entry_price - tp_distance
                         
-                        # ─── [FIX V8.5.2] SÓLO SI SniperSignal TIENE VALOR ───
-                        # Si la IA da señal con suficiente confianza, creamos SniperSignal
+                        # ─── [FASE 10] PASAR POR META-BRAIN V10.3 ───
                         if proba >= 0.55:
-                            # Determinar confianza
                             if proba >= 0.85:
                                 confidence = "ALTA"
                             else:
                                 confidence = "MEDIA"
                             
-                            # Crear señal del Sniper
                             SniperSignal_local = SniperSignal(
                                 symbol=symbol,
                                 direction=direction,
@@ -934,75 +930,123 @@ def main():
                                 tp_price=tp_price,
                             )
                             logger.info(f"   🎯 Señal Sniper creada: {symbol} {direction} @ {proba*100:.1f}%")
-                        
-                        # ─── [FIX V8.5.2] SÓLO PROCESAR SI HAY SEÑAL ───
-                        if SniperSignal_local is not None:
+                            
+                            # ─── CONSULTAR AL META-BRAIN ───
                             signal = SniperSignal_local
                             
-                            # PASAR POR EL CONSEJO DE CENTINELAS
-                            logger.info(f"   🛡️ Consultando al Consejo de Centinelas...")
-                            order = orchestrator.process_signal(signal)
+                            # 1. Actualizar estado del sistema en Meta-Brain
+                            council_status = orchestrator.get_war_room_status()
+                            meta_brain.update_system_state(
+                                win_rate_24h=council_status['council'].get('daily_pnl', 0) / max(council_status['council'].get('total_approved', 1), 1),
+                                drawdown=abs(min(0, council_status['council'].get('daily_pnl', 0))) / 10000,
+                                consecutive_losses=council_status['council'].get('consecutive_losses', 0),
+                                latency=0.05,
+                                brain_confidence=proba,
+                            )
                             
-                            # Actualizar estado para los mapas
-                            state[symbol]['p'] = proba
-                            state[symbol]['dir'] = 1 if direction == "LONG" else -1
-                            state[symbol]['atr'] = atr
+                            # 2. Obtener decisión del Meta-Brain
+                            decision = meta_brain.evaluate(
+                                symbol=symbol,
+                                proba=proba,
+                                atr=atr,
+                                regime=snapshot.regime,
+                                session="NY" if (13 <= now_utc.hour <= 20) else "LONDON" if (7 <= now_utc.hour <= 12) else "ASIA",
+                                trend_strength=abs(alpha_dict.get('alpha_mom_6h', 0)),
+                                cross_asset_alignment=abs(alpha_dict.get('alpha_divergence', 0)),
+                            )
                             
-                            # ─── LÓGICA DE VETO CON BYPASS DE ALTA CONFIANZA (V8.5) ───
-                            if order:
-                                state[symbol]['verdict'] = "APROBADO"
-                                state[symbol]['reason'] = ""
-                                logger.info(f"   🔥 ORDEN APROBADA POR EL CONSEJO: {symbol}")
+                            # 3. Aplicar ajustes del Meta-Brain
+                            if decision.should_trade:
+                                logger.info(f"   ✅ Meta-Brain aprueba: utilidad={decision.utility_score:.4f} > umbral={decision.threshold:.4f}")
+                                logger.info(f"   📊 Mercado: {decision.details.get('market_state', 'UNKNOWN')} | Sistema: {decision.details.get('system_alert', 'UNKNOWN')}")
+                                logger.info(f"   🔧 Confianza={decision.adjusted_confidence:.2f} | Riesgo={decision.adjusted_risk_pct*100:.2f}% | SL={decision.adjusted_sl_atr:.1f}ATR | TP={decision.adjusted_tp_atr:.1f}ATR")
                                 
-                                # ENVIAR ORDEN A MT5
-                                if mt5_connected:
-                                    success = mt5_conn.send_order(order)
-                                    if success:
-                                        logger.info(f"   ✅ Orden enviada a MT5: {symbol} {direction}")
-                                    else:
-                                        logger.error(f"   ❌ Fallo al enviar orden a MT5")
-                                else:
-                                    logger.info(f"   📝 [SIMULACIÓN] Orden lista para enviar: "
-                                               f"{symbol} {direction} {order.volume_lots} lots")
-                            else:
-                                # Obtener razón del veto
-                                council_status = orchestrator.get_war_room_status()
-                                veto_reason = council_status.get('veto_profile', {}).get('last_veto_reason', 'Veto del Consejo')
+                                # Recalcular SL/TP con ajustes del Meta-Brain
+                                adjusted_sl = entry_price - (atr * decision.adjusted_sl_atr) if direction == "LONG" else entry_price + (atr * decision.adjusted_sl_atr)
+                                adjusted_tp = entry_price + (atr * decision.adjusted_tp_atr) if direction == "LONG" else entry_price - (atr * decision.adjusted_tp_atr)
                                 
-                                # ⚡ BYPASS DE CONFIANZA: Si la IA tiene >90%, ignoramos el veto del consejo
-                                if proba >= 0.90:
-                                    logger.info(f"   ⚡ BYPASS DE CONFIANZA: IA {proba*100:.1f}% sobrepasa el veto del Consejo ({veto_reason}).")
-                                    state[symbol]['verdict'] = "APROBADO (BYPASS)"
-                                    state[symbol]['reason'] = f"Bypass por alta confianza ({proba*100:.1f}%)"
+                                # Crear señal con ajustes del Meta-Brain
+                                adjusted_signal = SniperSignal(
+                                    symbol=symbol,
+                                    direction=direction,
+                                    proba=proba,
+                                    confidence=confidence,
+                                    entry_price=entry_price,
+                                    sl_price=adjusted_sl,
+                                    tp_price=adjusted_tp,
+                                )
+                                
+                                # PASAR POR EL CONSEJO DE CENTINELAS
+                                logger.info(f"   🛡️ Consultando al Consejo de Centinelas...")
+                                order = orchestrator.process_signal(adjusted_signal)
+                                
+                                # Actualizar estado para los mapas
+                                state[symbol]['p'] = proba
+                                state[symbol]['dir'] = 1 if direction == "LONG" else -1
+                                state[symbol]['atr'] = atr
+                                
+                                if order:
+                                    state[symbol]['verdict'] = "APROBADO"
+                                    state[symbol]['reason'] = f"Meta-Brain utilidad={decision.utility_score:.3f}"
+                                    logger.info(f"   🔥 ORDEN APROBADA POR CONSEJO + META-BRAIN: {symbol}")
                                     
-                                    # Reconstruir orden para bypass
+                                    # ENVIAR ORDEN A MT5
                                     if mt5_connected:
-                                        # Crear orden manualmente si el orquestador no la generó
-                                        bypass_signal = SniperSignal(
-
-                                            symbol=symbol,
-                                            direction=direction,
-                                            proba=proba,
-                                            confidence="ALTA",
-                                            entry_price=entry_price,
-                                            sl_price=sl_price,
-                                            tp_price=tp_price,
-                                        )
-                                        bypass_order = orchestrator.process_signal(bypass_signal)
-                                        if bypass_order:
-                                            success = mt5_conn.send_order(bypass_order)
-                                            if success:
-                                                logger.info(f"   ✅ BYPASS: Orden enviada a MT5: {symbol} {direction}")
+                                        success = mt5_conn.send_order(order)
+                                        if success:
+                                            logger.info(f"   ✅ Orden enviada a MT5: {symbol} {direction}")
+                                        else:
+                                            logger.error(f"   ❌ Fallo al enviar orden a MT5")
+                                    else:
+                                        logger.info(f"   📝 [SIMULACIÓN] Orden lista: {symbol} {direction} {order.volume_lots} lots")
+                                else:
+                                    # Veto del Consejo - verificar bypass de alta confianza
+                                    veto_reason = council_status.get('veto_profile', {}).get('last_veto_reason', 'Veto del Consejo')
+                                    
+                                    if proba >= 0.90:
+                                        logger.info(f"   ⚡ BYPASS DE CONFIANZA: IA {proba*100:.1f}% sobrepasa veto del Consejo ({veto_reason}).")
+                                        state[symbol]['verdict'] = "APROBADO (BYPASS)"
+                                        state[symbol]['reason'] = f"Bypass Meta-Brain ({proba*100:.1f}%)"
+                                        
+                                        if mt5_connected:
+                                            bypass_order = orchestrator.process_signal(adjusted_signal)
+                                            if bypass_order:
+                                                success = mt5_conn.send_order(bypass_order)
+                                                if success:
+                                                    logger.info(f"   ✅ BYPASS: Orden enviada a MT5: {symbol} {direction}")
+                                                else:
+                                                    logger.error(f"   ❌ BYPASS: Fallo al enviar orden a MT5")
                                             else:
-                                                logger.error(f"   ❌ BYPASS: Fallo al enviar orden a MT5")
+                                                logger.info(f"   📝 [SIMULACIÓN BYPASS] Orden lista: {symbol} {direction}")
                                         else:
                                             logger.info(f"   📝 [SIMULACIÓN BYPASS] Orden lista: {symbol} {direction}")
                                     else:
-                                        logger.info(f"   📝 [SIMULACIÓN BYPASS] Orden lista: {symbol} {direction}")
-                                else:
-                                    state[symbol]['verdict'] = "VETADO"
-                                    state[symbol]['reason'] = veto_reason
-                                    logger.info(f"   🛡️ SEÑAL VETADA EN {symbol}: {veto_reason}")
+                                        state[symbol]['verdict'] = "VETADO"
+                                        state[symbol]['reason'] = veto_reason
+                                        logger.info(f"   🛡️ SEÑAL VETADA EN {symbol}: {veto_reason}")
+                                        
+                                        # Registrar veto en Meta-Brain
+                                        meta_brain.record_result(
+                                            symbol=symbol,
+                                            pnl=0,
+                                            r_multiple=0,
+                                            market_state=decision.details.get('market_state', 'UNKNOWN'),
+                                            was_vetoed=True,
+                                        )
+                            else:
+                                # Meta-Brain veta
+                                state[symbol]['verdict'] = "VETADO (META-BRAIN)"
+                                state[symbol]['reason'] = f"Utilidad={decision.utility_score:.3f} ≤ umbral={decision.threshold:.3f}"
+                                logger.warning(f"   🧬 META-BRAIN VETA: utilidad={decision.utility_score:.4f} ≤ umbral={decision.threshold:.4f}")
+                                logger.warning(f"   📊 Mercado: {decision.details.get('market_state', 'UNKNOWN')} | Sistema: {decision.details.get('system_alert', 'UNKNOWN')}")
+                                
+                                meta_brain.record_result(
+                                    symbol=symbol,
+                                    pnl=0,
+                                    r_multiple=0,
+                                    market_state=decision.details.get('market_state', 'UNKNOWN'),
+                                    was_vetoed=True,
+                                )
                         else:
                             # No hay señal - confianza por debajo del umbral
                             logger.info(f"   ⏭️ {symbol}: Sin señal (proba={proba*100:.1f}% < 55%)")
@@ -1014,12 +1058,21 @@ def main():
                     
                     except Exception as e:
                         logger.error(f"❌ Error procesando {symbol}: {e}")
+                        import traceback
+                        logger.error(traceback.format_exc())
                         continue
                 
                 last_hour = now_utc.hour
                 
                 # Exportar auditoría después de cada ciclo
                 orchestrator.export_audit_log(AUDIT_LOG_PATH)
+                
+                # Mostrar resumen del Meta-Brain
+                mb_perf = meta_brain.get_performance_summary()
+                logger.info(f"\n📊 Meta-Brain V10.3 Performance:")
+                logger.info(f"   Trades: {mb_perf['total_trades']} | Win Rate: {mb_perf['win_rate']*100:.1f}% | Avg R: {mb_perf['avg_r']:.2f}")
+                logger.info(f"   Expectancy: {mb_perf['expectancy']:.3f} | Profit Factor: {mb_perf['profit_factor']:.2f}")
+                logger.info(f"   Vetoes: {mb_perf['total_vetoes']} | Drawdown: {mb_perf['max_drawdown']*100:.1f}%")
             
             # ─── CADA 30 SEGUNDOS: ACTUALIZAR MAPAS DE GUERRA ───
             if now_utc.second % 30 == 0 and now_utc.second != last_update_second:
@@ -1028,7 +1081,7 @@ def main():
                     update_war_map(symbol, mt5_conn, orchestrator, state, output_path)
                 
                 # Log de estado
-                verdict_icons = {"APROBADO": "✅", "VETADO": "🛡️", "INIT": "⚪"}
+                verdict_icons = {"APROBADO": "✅", "VETADO": "🛡️", "INIT": "⚪", "VETADO (META-BRAIN)": "🧬", "APROBADO (BYPASS)": "⚡"}
                 status_parts = []
                 for sym in SYMBOL_LIST:
                     s = state[sym]
@@ -1055,6 +1108,8 @@ def main():
     
     except Exception as e:
         logger.error(f"❌ Error fatal en el bucle principal: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
     
     finally:
         # ─── 4. SHUTDOWN GRACEFUL ───
@@ -1063,8 +1118,26 @@ def main():
         # Exportar auditoría final
         orchestrator.export_audit_log(AUDIT_LOG_PATH)
         
+        # Guardar estado del Meta-Brain
+        try:
+            meta_brain.save_state("data/meta_brain_state.json")
+            logger.info("💾 Estado del Meta-Brain guardado")
+        except Exception as e:
+            logger.warning(f"⚠️ No se pudo guardar estado del Meta-Brain: {e}")
+        
         # Mostrar resumen final
         logger.info(orchestrator.summary())
+        
+        # Mostrar resumen del Meta-Brain
+        mb_perf = meta_brain.get_performance_summary()
+        logger.info(f"\n📊 Meta-Brain V10.3 — Resumen Final:")
+        logger.info(f"   Trades ejecutados: {mb_perf['total_trades']}")
+        logger.info(f"   Win Rate: {mb_perf['win_rate']*100:.1f}%")
+        logger.info(f"   Avg R: {mb_perf['avg_r']:.2f}")
+        logger.info(f"   Expectancy: {mb_perf['expectancy']:.3f}")
+        logger.info(f"   Profit Factor: {mb_perf['profit_factor']:.2f}")
+        logger.info(f"   Vetoes: {mb_perf['total_vetoes']}")
+        logger.info(f"   Max Drawdown: {mb_perf['max_drawdown']*100:.1f}%")
         
         # Cerrar MT5
         mt5_conn.shutdown()
@@ -1073,6 +1146,7 @@ def main():
         logger.info(f"   Tiempo total: {(datetime.now(timezone.utc) - start_time).total_seconds() / 60:.1f} minutos")
         logger.info(f"   Mapas: logs/war_room_eurusd.html, logs/war_room_gold.html")
         logger.info(f"   Auditoría: {AUDIT_LOG_PATH}")
+        logger.info(f"   Meta-Brain: data/meta_brain_state.json")
 
 
 if __name__ == "__main__":

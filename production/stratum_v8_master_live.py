@@ -1069,10 +1069,13 @@ def main():
                 
                 # Mostrar resumen del Meta-Brain
                 mb_perf = meta_brain.get_performance_summary()
+                logger.info(f"PERF RAW = {mb_perf}")  # DEBUG: verificar claves exactas
+                win_rate = mb_perf.get('win_rate', mb_perf.get('global_win_rate', 0))
+                avg_r = mb_perf.get('avg_r', mb_perf.get('avg_r_multiple', 0))
                 logger.info(f"\n📊 Meta-Brain V10.3 Performance:")
-                logger.info(f"   Trades: {mb_perf['total_trades']} | Win Rate: {mb_perf['win_rate']*100:.1f}% | Avg R: {mb_perf['avg_r']:.2f}")
-                logger.info(f"   Expectancy: {mb_perf['expectancy']:.3f} | Profit Factor: {mb_perf['profit_factor']:.2f}")
-                logger.info(f"   Vetoes: {mb_perf['total_vetoes']} | Drawdown: {mb_perf['max_drawdown']*100:.1f}%")
+                logger.info(f"   Trades: {mb_perf.get('total_trades', 0)} | Win Rate: {win_rate*100:.1f}% | Avg R: {avg_r:.2f}")
+                logger.info(f"   Expectancy: {mb_perf.get('expectancy', 0):.3f} | Profit Factor: {mb_perf.get('profit_factor', 0):.2f}")
+                logger.info(f"   Vetoes: {mb_perf.get('total_vetoes', 0)} | Drawdown: {mb_perf.get('max_drawdown', 0)*100:.1f}%")
             
             # ─── CADA 30 SEGUNDOS: ACTUALIZAR MAPAS DE GUERRA ───
             if now_utc.second % 30 == 0 and now_utc.second != last_update_second:
@@ -1116,28 +1119,47 @@ def main():
         logger.info("\n🔄 Cerrando sistema ordenadamente...")
         
         # Exportar auditoría final
-        orchestrator.export_audit_log(AUDIT_LOG_PATH)
+        try:
+            orchestrator.export_audit_log(AUDIT_LOG_PATH)
+        except NameError:
+            logger.warning("⚠️ Orchestrator no inicializado, auditoría no disponible")
+        except Exception as e:
+            logger.warning(f"⚠️ Error exportando auditoría: {e}")
         
         # Guardar estado del Meta-Brain
         try:
             meta_brain.save_state("data/meta_brain_state.json")
             logger.info("💾 Estado del Meta-Brain guardado")
+        except NameError:
+            logger.warning("⚠️ Meta-Brain no inicializado, estado no guardado")
         except Exception as e:
             logger.warning(f"⚠️ No se pudo guardar estado del Meta-Brain: {e}")
         
         # Mostrar resumen final
-        logger.info(orchestrator.summary())
+        try:
+            logger.info(orchestrator.summary())
+        except NameError:
+            logger.warning("⚠️ Orchestrator no inicializado, resumen no disponible")
+        except Exception as e:
+            logger.warning(f"⚠️ Error mostrando resumen: {e}")
         
-        # Mostrar resumen del Meta-Brain
-        mb_perf = meta_brain.get_performance_summary()
-        logger.info(f"\n📊 Meta-Brain V10.3 — Resumen Final:")
-        logger.info(f"   Trades ejecutados: {mb_perf['total_trades']}")
-        logger.info(f"   Win Rate: {mb_perf['win_rate']*100:.1f}%")
-        logger.info(f"   Avg R: {mb_perf['avg_r']:.2f}")
-        logger.info(f"   Expectancy: {mb_perf['expectancy']:.3f}")
-        logger.info(f"   Profit Factor: {mb_perf['profit_factor']:.2f}")
-        logger.info(f"   Vetoes: {mb_perf['total_vetoes']}")
-        logger.info(f"   Max Drawdown: {mb_perf['max_drawdown']*100:.1f}%")
+        # Mostrar resumen del Meta-Brain (con protección si no se inicializó)
+        try:
+            mb_perf = meta_brain.get_performance_summary()
+            win_rate = mb_perf.get('win_rate', mb_perf.get('global_win_rate', 0))
+            avg_r = mb_perf.get('avg_r', mb_perf.get('avg_r_multiple', 0))
+            logger.info(f"\n📊 Meta-Brain V10.3 — Resumen Final:")
+            logger.info(f"   Trades ejecutados: {mb_perf.get('total_trades', 0)}")
+            logger.info(f"   Win Rate: {win_rate*100:.1f}%")
+            logger.info(f"   Avg R: {avg_r:.2f}")
+            logger.info(f"   Expectancy: {mb_perf.get('expectancy', 0):.3f}")
+            logger.info(f"   Profit Factor: {mb_perf.get('profit_factor', 0):.2f}")
+            logger.info(f"   Vetoes: {mb_perf.get('total_vetoes', 0)}")
+            logger.info(f"   Max Drawdown: {mb_perf.get('max_drawdown', 0)*100:.1f}%")
+        except NameError:
+            logger.info(f"\n📊 Meta-Brain V10.3 — No inicializado (error previo)")
+        except Exception as e:
+            logger.warning(f"⚠️ Error al obtener resumen del Meta-Brain: {e}")
         
         # Cerrar MT5
         mt5_conn.shutdown()

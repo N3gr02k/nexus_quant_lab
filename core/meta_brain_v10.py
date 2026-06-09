@@ -1282,6 +1282,7 @@ class MetaBrainV10:
         - Error de utilidad promedio (expected vs realized)
         - Calibración actual por estado
         - Últimos N trades
+        - Métricas extendidas para integración con Orchestrator
 
         Returns:
             Dict con el resumen de rendimiento
@@ -1291,14 +1292,37 @@ class MetaBrainV10:
             return {
                 "total_trades": 0,
                 "global_win_rate": 0.0,
+                "win_rate": 0.0,  # alias para compatibilidad
                 "avg_utility_error": 0.0,
                 "by_market_state": {},
                 "calibration": self._calibration,
                 "recent_trades": [],
+                "avg_r": 0.0,
+                "expectancy": 0.0,
+                "profit_factor": 0.0,
+                "total_vetoes": 0,
+                "max_drawdown": 0.0,
             }
 
         wins = sum(1 for r in self._feedback if r["was_win"])
         utility_errors = [r["utility_error"] for r in self._feedback]
+        win_rate = round(wins / max(total, 1), 4)
+
+        # Calcular R múltiple promedio (avg_r)
+        r_values = [r.get("r_multiple", 0.0) for r in self._feedback]
+        avg_r = round(sum(r_values) / max(len(r_values), 1), 4)
+
+        # Calcular expectancy
+        expectancy = round(win_rate * avg_r - (1 - win_rate) * 1.0, 4)
+
+        # Calcular profit factor
+        gross_profit = sum(r.get("r_multiple", 0.0) for r in self._feedback if r.get("r_multiple", 0.0) > 0)
+        gross_loss = abs(sum(r.get("r_multiple", 0.0) for r in self._feedback if r.get("r_multiple", 0.0) < 0))
+        profit_factor = round(gross_profit / max(gross_loss, 0.0001), 4)
+
+        # Vetoes y drawdown desde el estado interno
+        total_vetoes = self.state.get("total_trades_rejected", 0)
+        max_drawdown = self.state.get("max_drawdown", 0.0)
 
         # WR por estado de mercado
         by_state = {}
@@ -1318,11 +1342,17 @@ class MetaBrainV10:
 
         return {
             "total_trades": total,
-            "global_win_rate": round(wins / max(total, 1), 4),
+            "global_win_rate": win_rate,
+            "win_rate": win_rate,  # alias para compatibilidad con stratum_v8_master_live.py
             "avg_utility_error": round(sum(utility_errors) / max(len(utility_errors), 1), 4),
             "by_market_state": by_state,
             "calibration": self._calibration,
             "recent_trades": recent,
+            "avg_r": avg_r,
+            "expectancy": expectancy,
+            "profit_factor": profit_factor,
+            "total_vetoes": total_vetoes,
+            "max_drawdown": max_drawdown,
         }
 
     # ══════════════════════════════════════════

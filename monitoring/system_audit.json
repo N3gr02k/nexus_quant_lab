@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-06-09T21:57:13.948580Z",
+  "mt5": true,
+  "mt5_status": "connected",
+  "docker_brain": true,
+  "docker_status": "container_running_but_no_http",
+  "meta_brain": true,
+  "war_room": true,
+  "memory_loaded": true,
+  "feedback_records": 32,
+  "latency_ms": 0.0,
+  "all_systems_ok": true
+}

@@ -10,10 +10,13 @@ Endpoints:
     GET  /          →  Health check para el orquestador
 """
 
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field, ValidationError
 from docker.sentinel_v2_engine import SentinelV2Engine
 import logging
+import sys
+import sklearn
 
 # ─── Configuración de logging ───
 logging.basicConfig(
@@ -53,16 +56,61 @@ engine = SentinelV2Engine()
 logger.info("🧠 Brain API iniciada. SentinelV2 listo para recibir consultas.")
 
 
+# ─── Manejador global para errores de validación Pydantic ───
+@app.exception_handler(ValidationError)
+async def validation_exception_handler(request: Request, exc: ValidationError):
+    """Devuelve un mensaje claro cuando falla la validación de features."""
+    errors = exc.errors()
+    logger.warning(f"❌ Validación fallida: {errors}")
+    return JSONResponse(
+        status_code=422,
+        content={
+            "error": "Datos de entrada inválidos",
+            "detail": errors,
+            "hint": "Asegúrate de enviar los 15 factores alfa como números (float/int)",
+            "expected_fields": list(MarketFeatures.model_fields.keys()),
+        },
+    )
+
+
 @app.get("/")
 def health_check():
     """Health check: devuelve el estado del Cerebro y las features esperadas."""
     models_loaded = engine.scaler is not None
+    sklearn_version = sklearn.__version__
     return {
         "status": "online",
         "version": "8.4.2",
         "features_expected": 15,
         "models_loaded": models_loaded,
+        "sklearn_version": sklearn_version,
+        "python_version": sys.version.split()[0],
     }
+
+
+@app.get("/diagnose")
+def diagnose():
+    """
+    Endpoint de diagnóstico: verifica que los modelos .pkl sean compatibles
+    con la versión actual de scikit-learn.
+    """
+    sklearn_version = sklearn.__version__
+    result = {
+        "sklearn_version": sklearn_version,
+        "models_loaded": engine.scaler is not None,
+        "models_dir": engine.models_dir,
+    }
+    
+    if engine.scaler is not None:
+        # Verificar versión de sklearn con la que se entrenó el scaler
+        result["scaler_type"] = type(engine.scaler).__module__
+        result["pca_type"] = type(engine.pca).__module__
+        result["model_type"] = type(engine.model).__module__
+        result["status"] = "✅ Todos los modelos cargados correctamente"
+    else:
+        result["status"] = "❌ Modelos no cargados - revisa la carpeta models/"
+    
+    return result
 
 
 @app.post("/evaluate")
@@ -96,3 +144,5 @@ def evaluate_market(features: MarketFeatures):
     except Exception as e:
         logger.error(f"Error evaluando mercado: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+

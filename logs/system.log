@@ -1,0 +1,8 @@
+[2026-06-09T21:00:00Z] 🚀 SYSTEM INIT — NEXUS Quant Lab v2.0
+[2026-06-09T21:00:00Z] 📁 Logging institucional activado
+[2026-06-09T21:00:00Z] ✅ AUDIT | MT5:True Docker:True MetaBrain:True WarRoom:True Mem:True Lat:12.3ms Feedback:45
+[2026-06-09T21:55:02.880553Z] [OK] AUDIT | MT5:True Docker:True MetaBrain:True WarRoom:True Mem:True Lat:0.0ms Feedback:32
+[2026-06-09T21:55:10.634497Z] ✅ WATCHDOG | Docker:True MT5:True Meta:active Lat:0ms Hiber:False
+[2026-06-09T21:56:12.722871Z] ✅ WATCHDOG | Docker:True MT5:True Meta:active Lat:0ms Hiber:False
+[2026-06-09T21:57:13.948580Z] [OK] AUDIT | MT5:True Docker:True MetaBrain:True WarRoom:True Mem:True Lat:0.0ms Feedback:32
+[2026-06-09T21:57:18.536028Z] ✅ WATCHDOG | Docker:True MT5:True Meta:active Lat:0ms Hiber:False

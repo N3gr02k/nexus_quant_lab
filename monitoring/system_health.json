@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-06-09T21:57:18.529030Z",
+  "docker": {
+    "running": true,
+    "api_responds": false,
+    "latency_ms": 0,
+    "version": "Docker version 29.5.2, build 79eb04c",
+    "error": "api_error: HTTPConnectionPool(host='localhost', port=5050): M"
+  },
+  "mt5": {
+    "connected": true,
+    "balance": 9754.75,
+    "equity": 9754.75,
+    "error": null
+  },
+  "meta_brain": {
+    "status": "active",
+    "hibernation": false,
+    "feedback_loaded": true,
+    "feedback_count": 32,
+    "error": null
+  },
+  "latency_ms": 0,
+  "hibernation_active": false,
+  "all_green": true
+}

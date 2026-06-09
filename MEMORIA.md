@@ -1151,3 +1151,181 @@ V3 = Sistema adaptativo contextual (Meta-Brain V10.4)
 3. **Fase 13 — Meta-Brain V13**: Predicción de cambios de régimen usando LSTM
 4. **Fase 14 — Producción**: Meta-Brain como servicio independiente (microservicio)
 5. **Fase 15 — Meta-Brain V15**: Meta-cerebro distribuido (múltiples instancias votando)
+
+---
+
+## 📦 FASE 1 — ESTABILIZACIÓN DE PRODUCCIÓN (2026-06-09)
+
+### Objetivo
+Lograr que NEXUS pueda operar durante 30 días seguidos sin intervención manual.
+
+### FASE 1.1 — Auditoría de Componentes
+
+**Archivo**: `core/system_audit.py`
+
+Reporta estado de todos los módulos críticos:
+```json
+{
+  "timestamp": "...",
+  "mt5": true,
+  "docker_brain": true,
+  "meta_brain": true,
+  "war_room": true,
+  "memory_loaded": true,
+  "feedback_records": 32,
+  "latency_ms": 45
+}
+```
+
+### FASE 1.2 — Health Monitor
+
+**Archivo**: `core/system_watchdog.py`
+
+Monitorea cada 60 segundos:
+- **Docker**: running, API responde, latencia, versión
+- **MT5**: conectado, balance, equity
+- **Meta-Brain**: estado, hibernación, feedback cargado
+
+Persiste en `monitoring/system_health.json` y `monitoring/uptime_stats.json`.
+
+### FASE 1.3 — Logging Institucional
+
+```
+logs/
+├── system.log        → Eventos generales del sistema
+├── trades.log        → Historial de trades
+├── meta_brain.log    → Decisiones del Meta-Brain
+├── docker.log        → Estado de Docker
+├── errors.log        → Errores críticos
+└── watchdog.log      → Ciclos del watchdog
+```
+
+### FASE 1.4 — Watchdog de Emergencia
+
+Si ocurre:
+- Docker caído
+- MT5 desconectado
+- Latencia > 2000 ms
+
+→ **HIBERNATION FORZADO** (crea `data/.hibernation_mode`)
+
+---
+
+## 📊 FASE 2 — DATASET MAESTRO V2 (2026-06-09)
+
+### Objetivo
+Registrar absolutamente todo. Cada análisis horario genera un registro, incluso si NO TRADE.
+
+**Archivo**: `data/dataset_master_v2_generator.py`
+**Dataset**: `data/dataset_master_v2.parquet`
+
+### Esquema (36 columnas)
+
+| Grupo | Columnas |
+|-------|----------|
+| **Identificación** | timestamp, symbol, session |
+| **Mercado** | volatility, liquidity, trend_strength, momentum_3h, momentum_6h, divergence, volume_delta, market_state |
+| **Sentinel** | sentinel_probability, sentinel_direction, sentinel_confidence |
+| **Council** | council_approved, council_veto_reason, council_score |
+| **Meta-Brain** | meta_utility, meta_threshold, meta_risk_pct, meta_sl_atr, meta_tp_atr, meta_market_state, meta_system_state, meta_hibernation |
+| **Sistema** | system_drawdown, system_win_rate_24h, system_latency_ms, system_consecutive_losses |
+| **Resultado** | trade_opened, trade_closed, trade_pnl, trade_r_multiple, trade_mae, trade_mfe, trade_duration_minutes |
+
+### Metas de datos
+| Período | Registros |
+|---------|-----------|
+| Semana 1 | 500+ |
+| Mes 1 | 5,000+ |
+| Mes 3 | 20,000+ |
+| Objetivo final | 100,000+ |
+
+### Estado actual
+- **191 registros** (168 sintéticos + 32 sincronizados desde feedback real)
+- 5 símbolos: EURUSD, XAUUSD, GBPUSD, USDJPY, BTCUSD
+- 39 trades abiertos, 38 eventos de hibernación
+
+### Comandos útiles
+```bash
+# Generar datos de prueba (10 registros)
+python data/dataset_master_v2_generator.py --generate test
+
+# Generar semana (168 registros)
+python data/dataset_master_v2_generator.py --generate weekly --append
+
+# Generar mes (5,000 registros)
+python data/dataset_master_v2_generator.py --generate monthly --append
+
+# Sincronizar desde feedback existente
+python data/dataset_master_v2_generator.py --sync
+
+# Ver estadísticas del dataset
+python data/dataset_master_v2_generator.py --stats
+```
+
+---
+
+## 🏗️ ESTRUCTURA DEL PROYECTO (actualizada)
+
+```
+nexus_quant_lab/
+│
+├── core/
+│   ├── __init__.py
+│   ├── meta_brain_v10.py
+│   ├── prefrontal_supervisor.py
+│   ├── sentinel_council.py
+│   ├── system_audit.py          ← NUEVO (FASE 1.1)
+│   └── system_watchdog.py       ← NUEVO (FASE 1.2/1.4)
+│
+├── production/
+│   ├── __init__.py
+│   ├── brain_client.py
+│   ├── execution_engine.py
+│   ├── sentinel_v2_engine.py
+│   ├── strategy_engine.py
+│   ├── stratum_sentinel_orchestrator_v8.py
+│   ├── stratum_v8_master_live.py
+│   ├── war_map_generator_v2.py
+│   └── war_room_sentinel_v5.py
+│
+├── data/
+│   ├── dataset_master_v2.parquet        ← NUEVO (FASE 2)
+│   ├── dataset_master_v2.csv            ← NUEVO (respaldo)
+│   ├── dataset_master_v2_generator.py   ← NUEVO (generador)
+│   ├── meta_brain_feedback.json
+│   ├── meta_brain_state.json
+│   └── snapshots/                       ← NUEVO (creado por watchdog)
+│
+├── logs/
+│   ├── system.log              ← NUEVO
+│   ├── trades.log              ← NUEVO
+│   ├── meta_brain.log          ← NUEVO
+│   ├── docker.log              ← NUEVO
+│   ├── errors.log              ← NUEVO
+│   ├── watchdog.log            ← NUEVO
+│   ├── system_audit.json       ← NUEVO
+│   └── ... (logs existentes)
+│
+├── monitoring/                          ← NUEVO
+│   ├── system_audit.json       ← NUEVO
+│   ├── system_health.json      ← NUEVO
+│   ├── uptime_stats.json       ← NUEVO
+│   └── watchdog_events.json    ← NUEVO
+│
+├── docker/
+├── data_factory/
+├── experiments/
+├── models/
+├── models_backup/
+├── notebook_research/
+│
+├── MEMORIA.md
+├── README.md
+├── requirements.txt
+├── docker-compose.yml
+└── war_room.html
+```
+
+### Progreso estimado
+- **FASE 1**: ~60% completado (auditoría, watchdog, logs, emergencia)
+- **FASE 2**: ~40% completado (esquema, generador, dataset inicial)

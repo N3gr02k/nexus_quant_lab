@@ -1,0 +1,2 @@
+[2026-06-09T21:00:00Z] 📊 TRADES LOG INIT — Formato institucional
+[2026-06-09T21:00:00Z] timestamp,symbol,session,action,volume,price,sl,tp,pnl,r_multiple,mae,mfe,duration_min,reason

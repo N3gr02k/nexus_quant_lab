@@ -1,0 +1,15 @@
+[2026-06-09T21:00:00Z] 🔍 WATCHDOG LOG INIT
+[2026-06-09T21:00:00Z] WATCHDOG STARTED | interval=60s
+[2026-06-09T21:01:00Z] DOCKER | running=True api=True lat=12.3ms ver=Docker version 24.0.7
+[2026-06-09T21:01:00Z] MT5 | connected=True balance=10000.0 equity=10050.5
+[2026-06-09T21:01:00Z] META | status=active hiber=False feedback=45
+[2026-06-09T21:01:00Z] ✅ All systems operational
+[2026-06-09T21:55:10.525895Z] DOCKER | running=True api=False lat=0ms ver=Docker version 29.5.2, build 7
+[2026-06-09T21:55:10.615292Z] MT5 | connected=True balance=9754.75 equity=9754.75
+[2026-06-09T21:55:10.621447Z] META | status=active hiber=False feedback=32
+[2026-06-09T21:56:12.629438Z] DOCKER | running=True api=False lat=0ms ver=Docker version 29.5.2, build 7
+[2026-06-09T21:56:12.715835Z] MT5 | connected=True balance=9754.75 equity=9754.75
+[2026-06-09T21:56:12.716832Z] META | status=active hiber=False feedback=32
+[2026-06-09T21:57:18.443880Z] DOCKER | running=True api=False lat=0ms ver=Docker version 29.5.2, build 7
+[2026-06-09T21:57:18.528031Z] MT5 | connected=True balance=9754.75 equity=9754.75
+[2026-06-09T21:57:18.529030Z] META | status=active hiber=False feedback=32

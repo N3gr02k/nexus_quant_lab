@@ -1,0 +1,11 @@
+{
+  "first_seen": "2026-06-09T21:00:00Z",
+  "last_seen": "2026-06-09T21:57:18.529030Z",
+  "total_checks": 4,
+  "healthy_checks": 4,
+  "emergency_triggers": 0,
+  "current_streak": 4,
+  "best_streak": 4,
+  "uptime_pct": 100.0,
+  "last_hibernation": null
+}
